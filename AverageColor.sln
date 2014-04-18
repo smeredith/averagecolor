@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AverageColorLib", "AverageColorLib\AverageColorLib.vcxproj", "{9CB9B8AB-C2A0-4548-966F-59C56A356270}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTestAverageColorLib", "UnitTestAverageColorLib\UnitTestAverageColorLib.vcxproj", "{2634F44C-89E6-4C70-8D28-2CAB8D4DD2E8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9CB9B8AB-C2A0-4548-966F-59C56A356270} = {9CB9B8AB-C2A0-4548-966F-59C56A356270}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9CB9B8AB-C2A0-4548-966F-59C56A356270}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9CB9B8AB-C2A0-4548-966F-59C56A356270}.Debug|Win32.Build.0 = Debug|Win32
+		{9CB9B8AB-C2A0-4548-966F-59C56A356270}.Release|Win32.ActiveCfg = Release|Win32
+		{9CB9B8AB-C2A0-4548-966F-59C56A356270}.Release|Win32.Build.0 = Release|Win32
+		{2634F44C-89E6-4C70-8D28-2CAB8D4DD2E8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2634F44C-89E6-4C70-8D28-2CAB8D4DD2E8}.Debug|Win32.Build.0 = Debug|Win32
+		{2634F44C-89E6-4C70-8D28-2CAB8D4DD2E8}.Release|Win32.ActiveCfg = Release|Win32
+		{2634F44C-89E6-4C70-8D28-2CAB8D4DD2E8}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
