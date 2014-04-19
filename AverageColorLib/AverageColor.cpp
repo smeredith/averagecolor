@@ -67,7 +67,7 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
     typedef std::array<ULONGLONG, colorCount> PixelColorSum;
     const PixelColorSum colorSumZero = {0,0,0};
 
-    // Want to process scanlines in parallel, so create a list of each scan line's begin
+    // Want to process scanlines in parallel, so create a list of each scanline's begin
     // and end. The color sum for that line will be stored in this vector as well.
     typedef std::tuple<PixelColorVector::iterator, PixelColorVector::iterator, PixelColorSum> ScanLine;
     std::vector<ScanLine> scanLines(height);
@@ -78,11 +78,13 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
         scanLines[l] = std::make_tuple(begin, begin + width, colorSumZero);
     }
 
-    // Iterate through the scan lines.
+    // Iterate through the scan lines in parallel.
     concurrency::parallel_for_each(scanLines.begin(), scanLines.end(),
         [colorCount](ScanLine& scanLine)
         {
-            // Calculate the color sums for this line and save it.
+            // Calculate the color sums for this line and save it. Note that multiple
+            // threads are writing to the array, but each one is writing to a different
+            // element, so it is thread safe.
             std::for_each(std::get<0>(scanLine), std::get<1>(scanLine),
                 [colorCount, &scanLine](PixelColors& pixelColors)
                 {
