@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
+#include <ppl.h>
 #include <wincodec.h>
 
 using namespace Microsoft::WRL;
@@ -78,7 +79,7 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
     }
 
     // Iterate through the scan lines.
-    std::for_each(scanLines.begin(), scanLines.end(),
+    concurrency::parallel_for_each(scanLines.begin(), scanLines.end(),
         [colorCount](ScanLine& scanLine)
         {
             // Calculate the color sums for this line and save it.
