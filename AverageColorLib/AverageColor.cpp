@@ -44,7 +44,7 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
     IF_FAIL_RETURN(pPixelFormatInfo->GetBitsPerPixel(&bitsPerPixel));
 
     // The code below assumes multiples of 8.
-    IF_FALSE_RETURN(bitsPerPixel % 8 != 0, E_INVALIDARG);
+    IF_FALSE_RETURN(((bitsPerPixel % 8) == 0), E_INVALIDARG);
 
     UINT colorChannels;
     IF_FAIL_RETURN(pPixelFormatInfo->GetChannelCount(&colorChannels));
@@ -71,9 +71,12 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
     std::vector<ULONGLONG> totals(colorChannels, 0);
 
     // Iterate through every color channel of every pixel and add to the total.
-    for (size_t i = 0; i < buffer.size(); ++i)
+    for (size_t i = 0; i < buffer.size();)
     {
-        totals[i % colorChannels] += buffer[i];
+        for (size_t c = 0; c < colorChannels; ++c)
+        {
+            totals[c] += buffer[i++];
+        }
     }
 
     averageColor = 0;
