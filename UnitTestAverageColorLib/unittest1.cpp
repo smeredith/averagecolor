@@ -12,7 +12,7 @@ namespace UnitTestAverageColorLib
             void TestFile(PCWSTR filename, DWORD expected)
             {
                 DWORD averageColor = 0;
-                __int64 elapsedTime;
+                ULONGLONG elapsedTime;
 
                 HRESULT hr = AverageColor(filename, averageColor, &elapsedTime);
 

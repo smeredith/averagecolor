@@ -8,7 +8,7 @@
 
 using namespace Microsoft::WRL;
 
-HRESULT AverageColor(PCWSTR filename, DWORD& averageColor, __int64* pElapsedTime)
+HRESULT AverageColor(PCWSTR filename, DWORD& averageColor, ULONGLONG* pElapsedTime)
 {
     VERIFY_PARAM(filename);
 
@@ -63,7 +63,7 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor, __int64* pElapsedTime
                 reinterpret_cast<BYTE*>(buffer.data())
                 ));
 
-    __int64 beginTime = GetTickCount();
+    const ULONGLONG beginTime = GetTickCount64();
 
     // PixelColorSum is a type to hold three different sums: one for each color.
     typedef std::array<ULONGLONG, colorCount> PixelColorSum;
@@ -120,7 +120,7 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor, __int64* pElapsedTime
 
     if (pElapsedTime)
     {
-        *pElapsedTime = GetTickCount() - beginTime;
+        *pElapsedTime = GetTickCount64() - beginTime;
     }
 
     return S_OK;

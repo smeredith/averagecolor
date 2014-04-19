@@ -10,7 +10,7 @@ int _tmain(int argc, _TCHAR* argv[])
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
     DWORD averageColor;
-    __int64 elapsedTime;
+    ULONGLONG elapsedTime;
     HRESULT hr = AverageColorSerial(L"..\\TestFiles\\10000x10000_8080ff.jpg", averageColor, &elapsedTime);
 
     if (SUCCEEDED(hr))
