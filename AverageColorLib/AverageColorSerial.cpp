@@ -47,8 +47,8 @@ HRESULT AverageColorSerial(PCWSTR filename, DWORD& averageColor, ULONGLONG* pEla
     IF_FAIL_RETURN(pFrame->GetSize(&width, &height));
 
     // Make a buffer to hold the decoded image.
-    UINT pixels = width * height;
-    std::vector<BYTE> buffer(pixels * colorChannels);
+    UINT pixelCount = width * height;
+    std::vector<BYTE> buffer(pixelCount * colorChannels);
 
     // Decode the image into the buffer.
     IF_FAIL_RETURN(pFrame->CopyPixels(
@@ -63,8 +63,6 @@ HRESULT AverageColorSerial(PCWSTR filename, DWORD& averageColor, ULONGLONG* pEla
     // Store the totals we need to calculate an average, one for each channel.
     std::array<ULONGLONG, colorChannels> totals = {0};
 
-    // To make parallel, create a vector of color values for each pixel, and a vector of those for each scan line, and a vector or scan lines.
-    // Then the outer loop is scan lines, and the inner loop is accumulating pixel colors.
     // Iterate through every color channel of every pixel and add to the total.
     for (size_t i = 0; i < buffer.size();)
     {
@@ -79,7 +77,7 @@ HRESULT AverageColorSerial(PCWSTR filename, DWORD& averageColor, ULONGLONG* pEla
     // Calculate the averages and create a single value representing the average color.
     for (size_t i = 0; i < totals.size(); ++i)
     {
-        averageColor += (0xff & (totals[i] / pixels)) << (8 * i);
+        averageColor += (0xff & (totals[i] / pixelCount)) << (8 * i);
     }
 
     if (pElapsedTime)

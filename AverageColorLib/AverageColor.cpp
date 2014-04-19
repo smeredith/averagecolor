@@ -89,9 +89,9 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor, ULONGLONG* pElapsedTi
             // threads are writing to the array, but each one is writing to a different
             // pre-allocated element, so it is thread safe.
             std::for_each(std::get<0>(scanLine), std::get<1>(scanLine),
-                [colorCount, &scanLine](PixelColors& pixelColors)
+                [&scanLine](PixelColors& pixelColors)
                 {
-                    for (size_t c = 0; c < colorCount; ++c)
+                    for (size_t c = 0; c < pixelColors.size(); ++c)
                     {
                         // Save it back into the scanline array.
                         std::get<2>(scanLine)[c] += pixelColors[c];
@@ -101,9 +101,9 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor, ULONGLONG* pElapsedTi
 
     // Sum the sums of each scanline to get the grand total.
     PixelColorSum grandTotal = std::accumulate(scanLines.begin(), scanLines.end(), colorSumZero,
-        [colorCount](PixelColorSum colorSum, ScanLine& scanLine)
+        [](PixelColorSum colorSum, ScanLine& scanLine)
         {
-            for (size_t c = 0; c < colorCount; ++c)
+            for (size_t c = 0; c < colorSum.size(); ++c)
             {
                 colorSum[c] += std::get<2>(scanLine)[c];
             }
