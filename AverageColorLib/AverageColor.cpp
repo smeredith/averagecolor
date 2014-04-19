@@ -115,7 +115,7 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor, ULONGLONG* pElapsedTi
     // Calculate the averages and create a single value representing the average color.
     for (size_t i = 0; i < colorCount; ++i)
     {
-        averageColor += (grandTotal[i] / pixelCount) << (bitsPerChannel * i);
+        averageColor += (0xff & (grandTotal[i] / pixelCount)) << (bitsPerChannel * i);
     }
 
     if (pElapsedTime)
