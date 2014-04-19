@@ -5,37 +5,36 @@
 #include <iostream>
 #include <AverageColor.h>
 
-// Calls the provided work function and returns the number of milliseconds  
-// that it takes to call that function. 
-template <class Function>
-__int64 time_call(Function&& f)
-{
-   __int64 begin = GetTickCount();
-   f();
-   return GetTickCount() - begin;
-}
-
 int _tmain(int argc, _TCHAR* argv[])
 {
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-    HRESULT hr;
-    __int64 elapsed = time_call(
-        [&hr]
-        {
-            DWORD averageColor;
-            hr = AverageColor(L"..\\TestFiles\\10000x10000_8080ff.jpg", averageColor);
-        });
+
+    DWORD averageColor;
+    __int64 elapsedTime;
+    HRESULT hr = AverageColorSerial(L"..\\TestFiles\\10000x10000_8080ff.jpg", averageColor, &elapsedTime);
 
     if (SUCCEEDED(hr))
     {
-        // 1406 ms
-        std::wcout << L"Elapsed time: " << elapsed << L" ms" << std::endl;
+        // 700 ms
+        std::wcout << L"Elapsed time serial: " << elapsedTime << L" ms" << std::endl;
     }
     else
     {
         std::wcout << L"Failed: " << hr << std::endl;
     }
-    
+
+    hr = AverageColor(L"..\\TestFiles\\10000x10000_8080ff.jpg", averageColor, &elapsedTime);
+
+    if (SUCCEEDED(hr))
+    {
+        // 200 ms
+        std::wcout << L"Elapsed time parallel: " << elapsedTime << L" ms" << std::endl;
+    }
+    else
+    {
+        std::wcout << L"Failed: " << hr << std::endl;
+    }
+
     CoUninitialize();
     return 0;
 }
