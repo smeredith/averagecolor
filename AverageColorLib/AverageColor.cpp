@@ -37,7 +37,7 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
     // Only need for handle this format for now. Code below assumes this format.
     IF_FALSE_RETURN((pixelFormatGuid == GUID_WICPixelFormat24bppBGR), E_UNEXPECTED);
 
-    const UINT colorChannels = 3;
+    const UINT colorCount = 3;
     const UINT bitsPerChannel = 8;
 
     UINT width;
@@ -45,37 +45,38 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
     IF_FAIL_RETURN(pFrame->GetSize(&width, &height));
 
     // Make a buffer to hold the decoded image.
-    UINT pixels = width * height;
-    std::vector<BYTE> buffer(pixels * colorChannels);
+    typedef std::array<BYTE, colorCount> PixelColors;
+    UINT pixelCount = width * height;
+    std::vector<PixelColors> buffer(pixelCount);
 
     // Decode the image into the buffer.
     IF_FAIL_RETURN(pFrame->CopyPixels(
                 0, // entire bitmap
-                width * colorChannels, // stride
-                buffer.size(), 
-                buffer.data()
+                width * colorCount, // stride
+                pixelCount * colorCount, // buffer size
+                reinterpret_cast<BYTE*>(buffer.data())
                 ));
 
     // Store the totals we need to calculate an average, one for each channel.
-    std::array<ULONGLONG, colorChannels> totals = {0};
+    std::array<ULONGLONG, colorCount> totals = {0};
 
     // To make parallel, create a vector of color values for each pixel, and a vector of those for each scan line, and a vector or scan lines.
     // Then the outer loop is scan lines, and the inner loop is accumulating pixel colors.
     // Iterate through every color channel of every pixel and add to the total.
-    for (size_t i = 0; i < buffer.size();)
-    {
-        for (size_t c = 0; c < colorChannels; ++c)
-        {
-            totals[c] += buffer[i++];
-        }
-    }
+    std::for_each(buffer.begin(), buffer.end(), [&totals, colorCount](PixelColors& colors)
+            {
+                for (size_t c = 0; c < colorCount; ++c)
+                {
+                    totals[c] += colors[c];
+                }
+            });
 
     averageColor = 0;
 
     // Calculate the averages and create a single value representing the average color.
     for (size_t i = 0; i < totals.size(); ++i)
     {
-        averageColor += (totals[i] / pixels) << (8 * i);
+        averageColor += (totals[i] / pixelCount) << (8 * i);
     }
 
     return S_OK;
