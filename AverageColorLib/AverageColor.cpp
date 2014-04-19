@@ -51,7 +51,7 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
     // is so we can iterate through 1 pixel at a time instead of 1 byte at a time.
     typedef std::array<BYTE, colorCount> PixelColors;
     typedef std::vector<PixelColors> PixelColorVector;
-    UINT pixelCount = width * height;
+    const UINT pixelCount = width * height;
     PixelColorVector buffer(pixelCount);
 
     // Decode the image into the buffer. The buffer appears as a single array of BYTES to
@@ -68,7 +68,8 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
     const PixelColorSum colorSumZero = {0,0,0};
 
     // Want to process scanlines in parallel, so create a list of each scanline's begin
-    // and end. The color sum for that line will be stored in this vector as well.
+    // and end iterators. The color sum for that line will be stored in this vector as
+    // well, as the third part of the tuple.
     typedef std::tuple<PixelColorVector::iterator, PixelColorVector::iterator, PixelColorSum> ScanLine;
     std::vector<ScanLine> scanLines(height);
 
@@ -84,7 +85,7 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
         {
             // Calculate the color sums for this line and save it. Note that multiple
             // threads are writing to the array, but each one is writing to a different
-            // element, so it is thread safe.
+            // pre-allocated element, so it is thread safe.
             std::for_each(std::get<0>(scanLine), std::get<1>(scanLine),
                 [colorCount, &scanLine](PixelColors& pixelColors)
                 {

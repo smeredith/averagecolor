@@ -23,18 +23,19 @@ int _tmain(int argc, _TCHAR* argv[])
         [&hr]
         {
             DWORD averageColor;
-            hr = AverageColor(L"..\\TestFiles\\5000x5000_ffffff.jpg", averageColor);
+            hr = AverageColor(L"..\\TestFiles\\10000x10000_8080ff.jpg", averageColor);
         });
 
     if (SUCCEEDED(hr))
     {
+        // 1406 ms
         std::wcout << L"Elapsed time: " << elapsed << L" ms" << std::endl;
     }
     else
     {
         std::wcout << L"Failed: " << hr << std::endl;
     }
-
+    
     CoUninitialize();
     return 0;
 }
