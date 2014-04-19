@@ -36,23 +36,11 @@ HRESULT AverageColorSerial(PCWSTR filename, DWORD& averageColor, ULONGLONG* pEla
     WICPixelFormatGUID pixelFormatGuid;
     IF_FAIL_RETURN(pFrame->GetPixelFormat(&pixelFormatGuid));
 
-    // A GUID is not very helpful. Need to jump through some more hoops to get actual values.
-    ComPtr<IWICComponentInfo> pComponentInfo;
-    IF_FAIL_RETURN(pWICFactory->CreateComponentInfo(pixelFormatGuid, &pComponentInfo));
+    // Only need for handle this format for now. Code below assumes this format.
+    IF_FALSE_RETURN((pixelFormatGuid == GUID_WICPixelFormat24bppBGR), E_UNEXPECTED);
 
-    ComPtr<IWICPixelFormatInfo> pPixelFormatInfo;
-    IF_FAIL_RETURN(pComponentInfo.As(&pPixelFormatInfo));
-
-    UINT bitsPerPixel;  // Total number of bits for all color channels.
-    IF_FAIL_RETURN(pPixelFormatInfo->GetBitsPerPixel(&bitsPerPixel));
-
-    // The code below assumes multiples of 8.
-    IF_FALSE_RETURN(((bitsPerPixel % 8) == 0), E_INVALIDARG);
-
-    UINT colorChannels;
-    IF_FAIL_RETURN(pPixelFormatInfo->GetChannelCount(&colorChannels));
-
-    UINT bitsPerChannel = bitsPerPixel / colorChannels;
+    const UINT colorChannels = 3;
+    const UINT bitsPerChannel = 8;
 
     UINT width;
     UINT height;
@@ -70,11 +58,13 @@ HRESULT AverageColorSerial(PCWSTR filename, DWORD& averageColor, ULONGLONG* pEla
                 buffer.data()
                 ));
 
-    __int64 beginTime = GetTickCount();
+    ULONGLONG beginTime = GetTickCount64();
 
     // Store the totals we need to calculate an average, one for each channel.
-    std::vector<ULONGLONG> totals(colorChannels, 0);
+    std::array<ULONGLONG, colorChannels> totals = {0};
 
+    // To make parallel, create a vector of color values for each pixel, and a vector of those for each scan line, and a vector or scan lines.
+    // Then the outer loop is scan lines, and the inner loop is accumulating pixel colors.
     // Iterate through every color channel of every pixel and add to the total.
     for (size_t i = 0; i < buffer.size();)
     {
@@ -89,12 +79,12 @@ HRESULT AverageColorSerial(PCWSTR filename, DWORD& averageColor, ULONGLONG* pEla
     // Calculate the averages and create a single value representing the average color.
     for (size_t i = 0; i < totals.size(); ++i)
     {
-        averageColor += (totals[i] / pixels) << (8 * i);
+        averageColor += (0xff & (totals[i] / pixels)) << (8 * i);
     }
 
     if (pElapsedTime)
     {
-        *pElapsedTime = GetTickCount() - beginTime;
+        *pElapsedTime = GetTickCount64() - beginTime;
     }
 
     return S_OK;
