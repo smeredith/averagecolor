@@ -15,7 +15,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
     if (SUCCEEDED(hr))
     {
-        // 560 ms
+        // 450 ms
         std::wcout << L"Elapsed time serial: " << elapsedTime << L" ms" << std::endl;
     }
     else
@@ -27,7 +27,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
     if (SUCCEEDED(hr))
     {
-        // 170 ms
+        // 125 ms
         std::wcout << L"Elapsed time parallel: " << elapsedTime << L" ms" << std::endl;
     }
     else

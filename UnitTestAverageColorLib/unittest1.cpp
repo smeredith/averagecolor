@@ -123,7 +123,7 @@ namespace UnitTestAverageColorLib
                 TestFile(L"..\\TestFiles\\64x1_020202.bmp", 0x020202);
             }
 
-            // 360 ms
+            // 345 ms
             TEST_METHOD(AverageColor_5000x5000_ffffff)
             {
                 TestFile(L"..\\TestFiles\\5000x5000_ffffff.jpg", 0xffffff);
