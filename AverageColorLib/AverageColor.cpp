@@ -32,7 +32,7 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
     ComPtr<IWICBitmapFrameDecode> pFrame;
     IF_FAIL_RETURN(pDecoder->GetFrame(0, &pFrame));
 
-    // The only pixel format info we can get from the frame is a GUID.
+    // The only pixel format info obtainable from the frame is a GUID.
     WICPixelFormatGUID pixelFormatGuid;
     IF_FAIL_RETURN(pFrame->GetPixelFormat(&pixelFormatGuid));
 
@@ -48,7 +48,7 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
 
     // Make a buffer to hold the bytes of the decoded image. This is a vector of 3-byte
     // arrays, where each byte in the array holds the RGB values for a single pixel. This
-    // is so we can iterate through 1 pixel at a time instead of 1 byte at a time.
+    // is so it is possible to iterate through 1 pixel at a time instead of 1 byte at a time.
     typedef std::array<BYTE, colorCount> PixelColors;
     typedef std::vector<PixelColors> PixelColorVector;
     const UINT pixelCount = width * height;
@@ -79,7 +79,7 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
         scanLines[l] = std::make_tuple(begin, begin + width, colorSumZero);
     }
 
-    // Iterate through the scan lines in parallel.
+    // Iterate through the scanlines in parallel.
     concurrency::parallel_for_each(scanLines.begin(), scanLines.end(),
         [](ScanLine& scanLine)
         {
@@ -95,8 +95,8 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
                 });
 
             // Save it back into the scanline array. Note that multiple threads are
-            // writing to the array, but each one is writing to a different pre-allocated
-            // element, so it is thread safe.
+            // writing to the array but each one is writing to a different pre-allocated
+            // element so it is thread safe.
             std::get<2>(scanLine) = scanLineColorSum;
         });
 
