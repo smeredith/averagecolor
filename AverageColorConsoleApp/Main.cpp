@@ -10,25 +10,12 @@ int _tmain(int argc, _TCHAR* argv[])
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
     DWORD averageColor;
-    ULONGLONG elapsedTime;
-    HRESULT hr = AverageColorSerial(L"..\\TestFiles\\10000x10000_8080ff.jpg", averageColor, &elapsedTime);
+
+    HRESULT hr = AverageColor(L"..\\TestFiles\\10000x10000_8080ff.jpg", averageColor);
 
     if (SUCCEEDED(hr))
     {
-        // 450 ms
-        std::wcout << L"Elapsed time serial: " << elapsedTime << L" ms" << std::endl;
-    }
-    else
-    {
-        std::wcout << L"Failed: " << hr << std::endl;
-    }
-
-    hr = AverageColor(L"..\\TestFiles\\10000x10000_8080ff.jpg", averageColor, &elapsedTime);
-
-    if (SUCCEEDED(hr))
-    {
-        // 125 ms
-        std::wcout << L"Elapsed time parallel: " << elapsedTime << L" ms" << std::endl;
+        std::wcout << L"Average color: " << averageColor << std::endl;
     }
     else
     {
@@ -38,4 +25,3 @@ int _tmain(int argc, _TCHAR* argv[])
     CoUninitialize();
     return 0;
 }
-

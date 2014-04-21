@@ -12,9 +12,7 @@ namespace UnitTestAverageColorLib
             void TestFile(PCWSTR filename, DWORD expected)
             {
                 DWORD averageColor = 0;
-                ULONGLONG elapsedTime;
-
-                HRESULT hr = AverageColor(filename, averageColor, &elapsedTime);
+                HRESULT hr = AverageColor(filename, averageColor);
 
                 Assert::AreEqual(S_OK, hr);
                 Assert::AreEqual(expected, averageColor);
@@ -26,7 +24,7 @@ namespace UnitTestAverageColorLib
             {
                 DWORD averageColor = 0;
 
-                HRESULT hr = AverageColor(nullptr, averageColor, nullptr);
+                HRESULT hr = AverageColor(nullptr, averageColor);
                 Assert::AreEqual(E_INVALIDARG, hr);
             }
 
@@ -34,7 +32,7 @@ namespace UnitTestAverageColorLib
             {
                 DWORD averageColor = 0;
 
-                HRESULT hr = AverageColor(L"not_a_file.jpg", averageColor, nullptr);
+                HRESULT hr = AverageColor(L"not_a_file.jpg", averageColor);
                 Assert::IsTrue(FAILED(hr));
             }
 
