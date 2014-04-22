@@ -2,26 +2,20 @@
 //
 
 #include "stdafx.h"
-#include <iostream>
 #include <AverageColor.h>
+
 
 int _tmain(int argc, _TCHAR* argv[])
 {
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
     DWORD averageColor;
-
-    HRESULT hr = AverageColor(L"..\\TestFiles\\10000x10000_8080ff.jpg", averageColor);
-
-    if (SUCCEEDED(hr))
+    if (FAILED(AverageColor(L"..\\TestFiles\\5000x5000_ffffff.jpg", averageColor)))
     {
-        std::wcout << L"Average color: " << averageColor << std::endl;
-    }
-    else
-    {
-        std::wcout << L"Failed: " << hr << std::endl;
+        return -1;
     }
 
     CoUninitialize();
-    return 0;
+	return 0;
 }
+
