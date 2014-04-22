@@ -13,6 +13,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C352F4F9-5BBA-40C4-A969-2DC39658F834}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AverageColor", "AverageColorConsoleApp\AverageColorConsoleApp.vcxproj", "{6CFBB67F-F88D-4C29-9F6A-6C6A958C1E2C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9CB9B8AB-C2A0-4548-966F-59C56A356270} = {9CB9B8AB-C2A0-4548-966F-59C56A356270}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,8 +38,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
