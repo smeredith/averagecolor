@@ -12,28 +12,53 @@ namespace po = boost::program_options;
 int _tmain(int argc, _TCHAR* argv[])
 {
 
-    po::options_description desc("Options");
-    desc.add_options()
+    // These are the options that need help descriptions printed.
+    po::options_description normalOptions("Options");
+    normalOptions.add_options()
         ("help,h", "print help message")
+        ("version,v", "print version")
+        ;
+
+    // These are positional options that do not need help descriptions printed.
+    po::options_description hiddenOptions("Options");
+    hiddenOptions.add_options()
         ("input,i", po::wvalue<std::wstring>(), "input filename")
         ;
-    
-    po::positional_options_description positionalOptions;     
+
+    po::positional_options_description positionalOptions;
     positionalOptions.add("input", 1);
+
+    // The full list of options used for parsing the command line.
+    po::options_description allOptions("Options");
+    allOptions.add(normalOptions).add(hiddenOptions);
 
     po::variables_map vm;
 
-    po::store(po::wcommand_line_parser(argc, argv).options(desc).positional(positionalOptions).run(), vm);
-    
-
-    if (vm.count("help") || !vm.count("input")) {
-        std::cout << "Find the average color of an image file." << std::endl << std::endl;
-        std::cout << "Usage: AverageColor [-h] [[-i] filename]" << std::endl << std::endl;
-        std::cout << desc << std::endl;
+    try
+    {
+        po::store(po::wcommand_line_parser(argc, argv).options(allOptions).positional(positionalOptions).run(), vm);
+    }
+    catch(po::error& e)
+    {
+        std::cout << "Error: " << e.what() << std::endl << std::endl;
+        std::cout << normalOptions << std::endl;
         return 1;
     }
-    
-    po::notify(vm);
+
+    if (vm.count("version"))
+    {
+        std::cout << "averagecolor version 0.1" << std::endl;
+        return 2;
+    }
+
+    if (vm.count("help") || !vm.count("input"))
+    {
+        std::cout << "Find the average color of an image file." << std::endl << std::endl;
+        std::cout << "Usage: averagecolor [-hv] filename" << std::endl << std::endl;
+        std::cout << normalOptions << std::endl;
+        return 3;
+    }
+
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
     DWORD averageColor;
@@ -45,7 +70,7 @@ int _tmain(int argc, _TCHAR* argv[])
     }
     else
     {
-        std::cout << "Failed: 0x" << std::hex << hr << std::endl;
+        std::cout << "Error: 0x" << std::hex << hr << std::endl;
     }
 
     CoUninitialize();
