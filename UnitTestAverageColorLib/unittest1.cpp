@@ -12,7 +12,6 @@ namespace UnitTestAverageColorLib
             void TestFile(PCWSTR filename, DWORD expected)
             {
                 DWORD averageColor = 0;
-
                 HRESULT hr = AverageColor(filename, averageColor);
 
                 Assert::AreEqual(S_OK, hr);
@@ -122,17 +121,21 @@ namespace UnitTestAverageColorLib
                 TestFile(L"..\\TestFiles\\64x1_020202.bmp", 0x020202);
             }
 
+            // 345 ms
             TEST_METHOD(AverageColor_5000x5000_ffffff)
             {
                 TestFile(L"..\\TestFiles\\5000x5000_ffffff.jpg", 0xffffff);
             }
 
+            TEST_METHOD(AverageColor_25000x1000_ff8041)
+            {
+                TestFile(L"..\\TestFiles\\25000x1000_ff8041.jpg", 0xff8041);
+            }
+
+            // 166 ms
             TEST_METHOD(AverageColor_real_5e93b6)
             {
                 TestFile(L"..\\TestFiles\\real_5e93b6.jpg", 0x5e93b6);
             }
-
-
-
     };
 }
