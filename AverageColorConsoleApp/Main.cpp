@@ -22,7 +22,7 @@ int _tmain(int argc, _TCHAR* argv[])
     // These are positional options that do not need help descriptions printed.
     po::options_description hiddenOptions("Options");
     hiddenOptions.add_options()
-        ("input,i", po::wvalue<std::wstring>(), "input filename")
+        ("input", po::wvalue<std::wstring>(), "input filename")
         ;
 
     po::positional_options_description positionalOptions;
@@ -47,7 +47,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
     if (vm.count("version"))
     {
-        std::cout << "averagecolor version 0.1" << std::endl;
+        std::cout << "averagecolor version 1.0" << std::endl;
         return 2;
     }
 
@@ -58,7 +58,6 @@ int _tmain(int argc, _TCHAR* argv[])
         std::cout << normalOptions << std::endl;
         return 3;
     }
-
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
     DWORD averageColor;
