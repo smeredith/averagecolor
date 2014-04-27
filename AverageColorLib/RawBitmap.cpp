@@ -35,14 +35,12 @@ HRESULT RawBitmap::InitFromFile(const wchar_t* pFilename)
     // Only need for handle this format for now. Code below assumes this format.
     IF_FALSE_RETURN((pixelFormatGuid == GUID_WICPixelFormat24bppBGR), E_UNEXPECTED);
 
-    UINT width;
-    UINT height;
-    IF_FAIL_RETURN(pFrame->GetSize(&width, &height));
+    IF_FAIL_RETURN(pFrame->GetSize(&m_width, &m_height));
 
     // Make a buffer to hold the bytes of the decoded image. This is a vector of 3-byte
     // arrays, where each byte in the array holds the RGB values for a single pixel. This
     // is so it is possible to iterate through 1 pixel at a time instead of 1 byte at a time.
-    m_bitmap.resize(width * height);
+    m_bitmap.resize(m_width * m_height);
 
     const UINT colorCount = sizeof(PixelColorVector::value_type);
 
@@ -50,7 +48,7 @@ HRESULT RawBitmap::InitFromFile(const wchar_t* pFilename)
     // this function.
     IF_FAIL_RETURN(pFrame->CopyPixels(
                 0, // entire bitmap
-                width * colorCount, // stride
+                m_width * colorCount, // stride
                 m_bitmap.size() * colorCount, // buffer size
                 reinterpret_cast<BYTE*>(m_bitmap.data())
                 ));

@@ -1,40 +1,26 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include <AverageColor.h>
+#include <AverageColor_ParallelForEach.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTestAverageColorLib
 {
-    TEST_CLASS(UnitTestAverageColorLib)
+    TEST_CLASS(UnitTest_AverageColor_ParallelForEach)
     {
         private:
             void TestFile(PCWSTR filename, DWORD expected)
             {
-                DWORD averageColor = 0;
-                HRESULT hr = AverageColor(filename, averageColor);
+                RawBitmap bitmap;
+                HRESULT hr = bitmap.InitFromFile(filename);
+
+                DWORD averageColor = AverageColor_ParallelForEach(bitmap.begin(), bitmap.end(), bitmap.Width(), bitmap.Height());
 
                 Assert::AreEqual(S_OK, hr);
                 Assert::AreEqual(expected, averageColor);
             }
 
         public:
-
-            TEST_METHOD(AverageColor_NullFilenameShouldFail)
-            {
-                DWORD averageColor = 0;
-
-                HRESULT hr = AverageColor(nullptr, averageColor);
-                Assert::AreEqual(E_INVALIDARG, hr);
-            }
-
-            TEST_METHOD(AverageColor_FileNotFoundShouldFail)
-            {
-                DWORD averageColor = 0;
-
-                HRESULT hr = AverageColor(L"not_a_file.jpg", averageColor);
-                Assert::IsTrue(FAILED(hr));
-            }
 
             TEST_METHOD(AverageColor_1x1_000000)
             {
