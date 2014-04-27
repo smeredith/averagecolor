@@ -30,12 +30,24 @@
     <ClInclude Include="FlowControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RawBitmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_Serial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AverageColor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RawBitmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_Serial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
