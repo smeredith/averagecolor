@@ -26,14 +26,21 @@ unsigned long AverageColor_ParallelForEach(
     concurrency::parallel_for_each(scanLines.begin(), scanLines.end(),
         [](ScanLine& scanLine)
         {
-            // Calculate the color sums for this line.  Save it back into the scanline
-            // array. Note that multiple threads are writing to the array but each one is
-            // writing to a different pre-allocated element so it is thread safe.
-            std::get<2>(scanLine) = std::accumulate(
-                std::get<0>(scanLine),
-                std::get<1>(scanLine),
-                PixelColorSums(),
-                AddPixelColorToSums);
+            // Calculate the color sums for this line.
+            PixelColorSums scanLineColorSum = {};
+            std::for_each(std::get<0>(scanLine), std::get<1>(scanLine),
+                [&scanLineColorSum](RawBitmap::PixelColor& pixelColor)
+                {
+                    for (size_t c = 0; c < pixelColor.size(); ++c)
+                    {
+                        scanLineColorSum[c] += pixelColor[c];
+                    }
+                });
+
+            // Save it back into the scanline array. Note that multiple threads are
+            // writing to the array, but each one is writing to a different pre-allocated
+            // element, so it is thread safe.
+            std::get<2>(scanLine) = scanLineColorSum;
         });
 
     // Sum the sum of each scanline.

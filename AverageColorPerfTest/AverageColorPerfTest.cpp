@@ -31,14 +31,14 @@ int _tmain(int argc, _TCHAR* argv[])
         std::wcout << L"Failed: " << hr << std::endl;
         return -1;
     }
-    
+
     DWORD averageColor;
     __int64 elapsed = time_call(
         [&]
     {
         averageColor = AverageColor_Serial(bitmap.begin(), bitmap.end());
     });
-    
+
     std::wcout << L"Elapsed time AverageColor_Serial(): " << elapsed << L" ms" << std::endl;
 
     elapsed = time_call(
@@ -46,10 +46,10 @@ int _tmain(int argc, _TCHAR* argv[])
     {
         averageColor = AverageColor_ParallelForEach(bitmap.begin(), bitmap.end(), bitmap.Width(), bitmap.Height());
     });
-    
+
     std::wcout << L"Elapsed time AverageColor_ParalellForEach(): " << elapsed << L" ms" << std::endl;
 
     CoUninitialize();
-	return 0;
+    return 0;
 }
 
