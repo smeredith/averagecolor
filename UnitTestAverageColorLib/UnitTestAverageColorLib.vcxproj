@@ -94,8 +94,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="UT_AverageColor.cpp" />
-    <ClCompile Include="UT_AverageColor_ParallelForEach.cpp" />
-    <ClCompile Include="UT_AverageColor_Serial.cpp" />
+    <ClCompile Include="UT_AverageColor_Strategies.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AverageColorLib\AverageColorLib.vcxproj">

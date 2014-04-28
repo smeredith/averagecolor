@@ -29,10 +29,7 @@
     <ClCompile Include="UT_AverageColor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UT_AverageColor_ParallelForEach.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UT_AverageColor_Serial.cpp">
+    <ClCompile Include="UT_AverageColor_Strategies.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
