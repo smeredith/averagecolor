@@ -6,7 +6,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTestAverageColorLib
 {
-    TEST_CLASS(UnitTestAverageColorLib)
+    TEST_CLASS(UnitTestAverageColor)
     {
         private:
             void TestFile(PCWSTR filename, DWORD expected)
