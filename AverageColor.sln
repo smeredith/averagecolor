@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AverageColor", "AverageColo
 		{9CB9B8AB-C2A0-4548-966F-59C56A356270} = {9CB9B8AB-C2A0-4548-966F-59C56A356270}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AverageColorPerfTest", "AverageColorPerfTest\AverageColorPerfTest.vcxproj", "{FB873495-54AF-494D-96B2-6B87B09BADB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -35,6 +37,10 @@ Global
 		{6CFBB67F-F88D-4C29-9F6A-6C6A958C1E2C}.Debug|Win32.Build.0 = Debug|Win32
 		{6CFBB67F-F88D-4C29-9F6A-6C6A958C1E2C}.Release|Win32.ActiveCfg = Release|Win32
 		{6CFBB67F-F88D-4C29-9F6A-6C6A958C1E2C}.Release|Win32.Build.0 = Release|Win32
+		{FB873495-54AF-494D-96B2-6B87B09BADB4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FB873495-54AF-494D-96B2-6B87B09BADB4}.Debug|Win32.Build.0 = Debug|Win32
+		{FB873495-54AF-494D-96B2-6B87B09BADB4}.Release|Win32.ActiveCfg = Release|Win32
+		{FB873495-54AF-494D-96B2-6B87B09BADB4}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
