@@ -17,5 +17,3 @@ inline PixelColorSums operator+(PixelColorSums lhs, const PixelColorSums& rhs)
 
     return lhs;
 }
-
-// TODO: make an operator that adds a PixelColor to a PixelColorSum.
