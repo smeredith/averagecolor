@@ -32,5 +32,11 @@
     <ClCompile Include="UT_AverageColor_Strategies.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UT_ColorCalculations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\AverageColorPerfTest\ReadMe.txt" />
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@
 #include "ColorCalculations.h"
 #include "AverageColor_Serial.h"
 
-unsigned long AverageColor_Serial(RawBitmap::PixelColorVector::iterator begin, RawBitmap::PixelColorVector::iterator end)
+PixelColorSums SumAverages(RawBitmap::PixelColorVector::iterator begin, RawBitmap::PixelColorVector::iterator end)
 {
     PixelColorSums totals = {};
     std::for_each(begin, end,
@@ -15,5 +15,10 @@ unsigned long AverageColor_Serial(RawBitmap::PixelColorVector::iterator begin, R
             }
         });
 
-    return CalculateAverage(totals, end - begin);
+    return totals;
+}
+
+unsigned long AverageColor_Serial(RawBitmap::PixelColorVector::iterator begin, RawBitmap::PixelColorVector::iterator end)
+{
+    return CalculateAverage(SumAverages(begin, end), end - begin);
 }

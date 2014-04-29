@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 #include <AverageColor_Serial.h>
 #include <AverageColor_ParallelForEach.h>
+#include <AverageColor_Task.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -21,6 +22,9 @@ namespace UnitTestAverageColorLib
             Assert::AreEqual(expected, averageColor);
 
             averageColor = AverageColor_ParallelForEach(bitmap.begin(), bitmap.end(), bitmap.Width(), bitmap.Height());
+            Assert::AreEqual(expected, averageColor);
+
+            averageColor = AverageColor_Task(bitmap.begin(), bitmap.end(), 10000);
             Assert::AreEqual(expected, averageColor);
         }
 
