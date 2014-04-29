@@ -7,3 +7,15 @@ typedef std::array<unsigned long long, sizeof(RawBitmap::PixelColor)> PixelColor
 
 PixelColorSums AddPixelColorToSums(PixelColorSums pixelColorSums, const RawBitmap::PixelColor& pixelColor);
 unsigned long CalculateAverage(const PixelColorSums& totals, unsigned int pixelCount);
+
+inline PixelColorSums operator+(PixelColorSums lhs, const PixelColorSums& rhs)
+{
+    for (size_t c = 0; c < rhs.size(); ++c)
+    {
+        lhs[c] += rhs[c];
+    }
+
+    return lhs;
+}
+
+// TODO: make an operator that adds a PixelColor to a PixelColorSum.

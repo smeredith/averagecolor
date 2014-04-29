@@ -95,11 +95,15 @@
     </ClCompile>
     <ClCompile Include="UT_AverageColor.cpp" />
     <ClCompile Include="UT_AverageColor_Strategies.cpp" />
+    <ClCompile Include="UT_ColorCalculations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AverageColorLib\AverageColorLib.vcxproj">
       <Project>{9cb9b8ab-c2a0-4548-966f-59c56a356270}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\AverageColorPerfTest\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

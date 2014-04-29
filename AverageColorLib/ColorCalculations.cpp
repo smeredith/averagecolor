@@ -14,3 +14,4 @@ unsigned long CalculateAverage(const PixelColorSums& totals, unsigned int pixelC
 
     return averageColor;
 }
+
