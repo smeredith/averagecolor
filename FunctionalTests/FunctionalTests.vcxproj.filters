@@ -21,28 +21,13 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AverageColorTestSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UT_ColorCalculations.cpp">
+    <ClCompile Include="FT_AverageColor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UT_AverageColor_Serial.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UT_AverageColor_ParallelForEach.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UT_AverageColor_Task.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\AverageColorPerfTest\ReadMe.txt" />
   </ItemGroup>
 </Project>
