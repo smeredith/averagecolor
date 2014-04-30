@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "AverageColor_ParallelTransform.h"
 
-HRESULT AverageColor(const wchar_t* filename, unsigned long& averageColor)
+HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
 {
     RawBitmap bitmap;
     IF_FAIL_RETURN(bitmap.InitFromFile(filename));

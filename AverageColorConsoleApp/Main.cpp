@@ -9,7 +9,7 @@
 
 namespace po = boost::program_options;
 
-int _tmain(int argc, _TCHAR* argv[])
+int _tmain(int argc, WCHAR* argv[])
 {
 
     // These are the options that need help descriptions printed.

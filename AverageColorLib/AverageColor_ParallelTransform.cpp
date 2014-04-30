@@ -5,11 +5,11 @@
 #include "AverageColor_Serial.h"
 #include "AverageColor_ParallelTransform.h"
 
-unsigned long AverageColor_ParallelTransform(
+DWORD AverageColor_ParallelTransform(
         RawBitmap::PixelColorVector::iterator begin,
         RawBitmap::PixelColorVector::iterator end,
-        unsigned int width,
-        unsigned int height)
+        UINT width,
+        UINT height)
 {
     // Want to process scanlines in parallel, so create a list of each scanline's begin
     // and end iterators.
@@ -18,7 +18,7 @@ unsigned long AverageColor_ParallelTransform(
 
     // The sums will be stored in this output vector, with one scanline sum per element.
     std::vector<PixelColorSums> pixelColorSums(height);
-     
+
     for (size_t y = 0; y < height; ++y)
     {
         RawBitmap::PixelColorVector::iterator lineBegin = begin + (width * y);

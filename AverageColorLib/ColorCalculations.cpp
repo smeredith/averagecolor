@@ -2,9 +2,9 @@
 #include "ColorCalculations.h"
 
 // Return the average color represented as a PixelColorSums packed into a single unsigned long.
-unsigned long CalculateAverage(const PixelColorSums& totals, unsigned int pixelCount)
+DWORD CalculateAverage(const PixelColorSums& totals, UINT pixelCount)
 {
-    unsigned long averageColor = 0;
+    DWORD averageColor = 0;
 
     // Calculate the averages and create a single value representing the average color.
     for (size_t i = 0; i < totals.size(); ++i)

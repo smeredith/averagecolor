@@ -18,7 +18,7 @@ PixelColorSums SumAverages(RawBitmap::PixelColorVector::iterator begin, RawBitma
     return totals;
 }
 
-unsigned long AverageColor_Serial(RawBitmap::PixelColorVector::iterator begin, RawBitmap::PixelColorVector::iterator end)
+DWORD AverageColor_Serial(RawBitmap::PixelColorVector::iterator begin, RawBitmap::PixelColorVector::iterator end)
 {
     return CalculateAverage(SumAverages(begin, end), end - begin);
 }

@@ -10,9 +10,9 @@
 PixelColorSums SumAveragesUsingTasks(
         RawBitmap::PixelColorVector::iterator begin,
         RawBitmap::PixelColorVector::iterator end,
-        unsigned int chunkSize)
+        UINT chunkSize)
 {
-    if (((end - begin) < chunkSize) || (chunkSize < 2))
+    if ((static_cast<UINT>(end - begin) < chunkSize) || (chunkSize < 2))
     {
         return SumAverages(begin, end);
     }
@@ -35,10 +35,10 @@ PixelColorSums SumAveragesUsingTasks(
     }
 }
 
-unsigned long AverageColor_Task(
+DWORD AverageColor_Task(
         RawBitmap::PixelColorVector::iterator begin,
         RawBitmap::PixelColorVector::iterator end,
-        unsigned int chunkSize)
+        UINT chunkSize)
 {
     if (chunkSize == 0)
     {

@@ -18,7 +18,7 @@ namespace UnitTestAverageColorLib
     {
         public:
 
-            TEST_METHOD(PixelColorSums_OperatorEquals_rhs_zero)
+            TEST_METHOD(PixelColorSums_OperatorPlus_rhs_zero)
             {
                 PixelColorSums expected = {1,2,3};
                 PixelColorSums rhs = {};
@@ -28,7 +28,7 @@ namespace UnitTestAverageColorLib
                 Assert::AreEqual(expected, result);
             }
 
-            TEST_METHOD(PixelColorSums_OperatorEquals_lhs_zero)
+            TEST_METHOD(PixelColorSums_OperatorPlus_lhs_zero)
             {
                 PixelColorSums expected = { 1, 2, 3 };
                 PixelColorSums lhs = {};
@@ -38,7 +38,7 @@ namespace UnitTestAverageColorLib
                 Assert::AreEqual(expected, result);
             }
 
-            TEST_METHOD(PixelColorSums_OperatorEquals_both_zero)
+            TEST_METHOD(PixelColorSums_OperatorPlus_both_zero)
             {
                 PixelColorSums expected = {};
                 PixelColorSums lhs = {};
@@ -48,7 +48,7 @@ namespace UnitTestAverageColorLib
                 Assert::AreEqual(expected, result);
             }
 
-            TEST_METHOD(PixelColorSums_OperatorEquals_both_nonzero)
+            TEST_METHOD(PixelColorSums_OperatorPlus_both_nonzero)
             {
                 PixelColorSums expected = {2,5,9};
                 PixelColorSums lhs = {1,2,3};

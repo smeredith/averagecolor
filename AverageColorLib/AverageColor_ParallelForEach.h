@@ -2,8 +2,8 @@
 
 #include "RawBitmap.h"
 
-unsigned long AverageColor_ParallelForEach(
+DWORD AverageColor_ParallelForEach(
         RawBitmap::PixelColorVector::iterator begin,
         RawBitmap::PixelColorVector::iterator end,
-        unsigned int width,
-        unsigned int height);
+        UINT width,
+        UINT height);

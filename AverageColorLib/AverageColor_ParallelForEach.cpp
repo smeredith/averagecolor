@@ -4,11 +4,11 @@
 #include "ColorCalculations.h"
 #include "AverageColor_Serial.h"
 
-unsigned long AverageColor_ParallelForEach(
+DWORD AverageColor_ParallelForEach(
         RawBitmap::PixelColorVector::iterator begin,
         RawBitmap::PixelColorVector::iterator end,
-        unsigned int width,
-        unsigned int height)
+        UINT width,
+        UINT height)
 {
     // Want to process scanlines in parallel, so create a list of each scanline's begin
     // and end iterators. The color sums for that line will be stored in this vector as

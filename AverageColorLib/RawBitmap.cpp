@@ -4,7 +4,7 @@
 
 using namespace Microsoft::WRL;
 
-HRESULT RawBitmap::InitFromFile(const wchar_t* pFilename)
+HRESULT RawBitmap::InitFromFile(PCWSTR pFilename)
 {
     VERIFY_PARAM(pFilename);
 
