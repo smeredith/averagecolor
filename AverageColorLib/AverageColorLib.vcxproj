@@ -87,6 +87,7 @@
   <ItemGroup>
     <ClCompile Include="AverageColor.cpp" />
     <ClCompile Include="AverageColor_ParallelForEach.cpp" />
+    <ClCompile Include="AverageColor_ParallelTransform.cpp" />
     <ClCompile Include="AverageColor_Serial.cpp" />
     <ClCompile Include="AverageColor_Task.cpp" />
     <ClCompile Include="ColorCalculations.cpp" />

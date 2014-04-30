@@ -41,6 +41,9 @@
     <ClCompile Include="UT_AverageColor_Task.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UT_AverageColor_ParallelTransform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\AverageColorPerfTest\ReadMe.txt" />

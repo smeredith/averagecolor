@@ -1,14 +1,13 @@
 #include "stdafx.h"
-#include "AverageColor_Serial.h"
-#include "AverageColor_ParallelForEach.h"
+#include "AverageColor_ParallelTransform.h"
 
 HRESULT AverageColor(const wchar_t* filename, unsigned long& averageColor)
 {
     RawBitmap bitmap;
     IF_FAIL_RETURN(bitmap.InitFromFile(filename));
 
-    //averageColor = AverageColor_ParallelForEach(bitmap.begin(), bitmap.end(), bitmap.Width(), bitmap.Height());
-    averageColor = AverageColor_Serial(bitmap.begin(), bitmap.end());
+    // This is the fastest parallel implementation.
+    averageColor = AverageColor_ParallelTransform(bitmap.begin(), bitmap.end(), bitmap.Width(), bitmap.Height());
 
     return S_OK;
 }
