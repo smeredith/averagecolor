@@ -77,6 +77,7 @@
     <ClInclude Include="AverageColor.h" />
     <ClInclude Include="AverageColor_ParallelForEach.h" />
     <ClInclude Include="AverageColor_Serial.h" />
+    <ClInclude Include="AverageColor_Task.h" />
     <ClInclude Include="ColorCalculations.h" />
     <ClInclude Include="FlowControl.h" />
     <ClInclude Include="RawBitmap.h" />

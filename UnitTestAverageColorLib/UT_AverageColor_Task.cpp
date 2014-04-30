@@ -4,7 +4,6 @@
 #include <AverageColor_Task.h>
 #include "AverageColorTestSet.h"
 
-
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTestAverageColorLib
@@ -14,8 +13,13 @@ namespace UnitTestAverageColorLib
     private:
         void TestForExpected(UINT width, UINT height, RawBitmap::PixelColorVector pixels, DWORD expected)
         {
-            DWORD averageColor = AverageColor_Task(pixels.begin(), pixels.end(), 2);
-            Assert::AreEqual(expected, averageColor);
+            // Test the three interesting chunk sizes. If you pass 0, the function picks a
+            // chunk size for you. 1 and 2 are also where bugs could exist.
+            for (size_t chunkSize = 0; chunkSize < 3; ++chunkSize)
+            {
+                DWORD averageColor = AverageColor_Task(pixels.begin(), pixels.end(), chunkSize);
+                Assert::AreEqual(expected, averageColor);
+            }
         }
 
     public:

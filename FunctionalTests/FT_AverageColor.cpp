@@ -36,6 +36,22 @@ namespace FunctionalTests
                 Assert::IsTrue(FAILED(hr));
             }
 
+            TEST_METHOD(FT_AveragaeColor_256ColorUnsupportedFormatShouldFail)
+            {
+                DWORD averageColor = 0;
+
+                HRESULT hr = AverageColor(L"256color.bmp", averageColor);
+                Assert::IsTrue(FAILED(hr));
+            }
+
+            TEST_METHOD(FT_AveragaeColor_16ColorUnsupportedFormatShouldFail)
+            {
+                DWORD averageColor = 0;
+
+                HRESULT hr = AverageColor(L"16color.bmp", averageColor);
+                Assert::IsTrue(FAILED(hr));
+            }
+
             TEST_METHOD(FT_AveragaeColor_1x1_000000)
             {
                 TestFile(L"..\\TestFiles\\1x1_000000.bmp", 0);
@@ -121,7 +137,6 @@ namespace FunctionalTests
                 TestFile(L"..\\TestFiles\\64x1_020202.bmp", 0x020202);
             }
 
-            // 345 ms
             TEST_METHOD(FT_AveragaeColor_5000x5000_ffffff)
             {
                 TestFile(L"..\\TestFiles\\5000x5000_ffffff.jpg", 0xffffff);
@@ -132,7 +147,6 @@ namespace FunctionalTests
                 TestFile(L"..\\TestFiles\\25000x1000_ff8041.jpg", 0xff8041);
             }
 
-            // 166 ms
             TEST_METHOD(FT_AveragaeColor_real_5e93b6)
             {
                 TestFile(L"..\\TestFiles\\real_5e93b6.jpg", 0x5e93b6);
