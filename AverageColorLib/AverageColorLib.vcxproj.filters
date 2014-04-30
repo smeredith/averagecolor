@@ -42,6 +42,9 @@
     <ClInclude Include="ColorCalculations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AverageColor_Task.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

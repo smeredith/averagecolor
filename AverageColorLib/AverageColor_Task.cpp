@@ -12,7 +12,7 @@ PixelColorSums SumAveragesUsingTasks(
         RawBitmap::PixelColorVector::iterator end,
         unsigned int chunkSize)
 {
-    if ((end - begin) < chunkSize)
+    if (((end - begin) < chunkSize) || (chunkSize < 2))
     {
         return SumAverages(begin, end);
     }
@@ -40,5 +40,10 @@ unsigned long AverageColor_Task(
         RawBitmap::PixelColorVector::iterator end,
         unsigned int chunkSize)
 {
+    if (chunkSize == 0)
+    {
+        chunkSize = 10000;
+    }
+
     return CalculateAverage(SumAveragesUsingTasks(begin, end, chunkSize), end - begin);
 }
