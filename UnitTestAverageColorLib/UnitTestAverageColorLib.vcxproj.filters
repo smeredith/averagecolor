@@ -29,19 +29,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UT_ColorCalculations.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="UT_AverageColor_Serial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UT_AverageColor_ParallelForEach.cpp">
+    <ClCompile Include="UT_EveryNIterator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UT_AverageColor_Task.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UT_AverageColor_ParallelTransform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

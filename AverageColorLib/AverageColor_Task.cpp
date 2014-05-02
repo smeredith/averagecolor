@@ -1,34 +1,33 @@
 #include "stdafx.h"
+#include <numeric>
 #include <ppltasks.h>
-#include "ColorCalculations.h"
-#include "AverageColor_Serial.h"
 #include "AverageColor_Task.h"
 
 // Divide and conquer version of SumAverages() that uses tasks.  ChunkSize represents the
 // number of iterations in a single work unit. If there is more work than this, it gets
 // recursively divided into two more tasks.
-PixelColorSums SumAveragesUsingTasks(
-        RawBitmap::PixelColorVector::iterator begin,
-        RawBitmap::PixelColorVector::iterator end,
+ULONGLONG AccumulateUsingTasks(
+        ColorIterator begin,
+        ColorIterator end,
         UINT chunkSize)
 {
     if ((static_cast<UINT>(end - begin) < chunkSize) || (chunkSize < 2))
     {
-        return SumAverages(begin, end);
+        return std::accumulate(begin, end, 0ULL);
     }
     else
     {
-        RawBitmap::PixelColorVector::iterator middle = begin + ((end - begin) / 2);
-        concurrency::task<PixelColorSums> bottomHalfTask = concurrency::create_task(
+        ColorIterator middle = begin + ((end - begin) / 2);
+        concurrency::task<ULONGLONG> bottomHalfTask = concurrency::create_task(
             [begin, middle, chunkSize]
             {
-                return SumAveragesUsingTasks(begin, middle, chunkSize);
+                return AccumulateUsingTasks(begin, middle, chunkSize);
             });
 
-        concurrency::task<PixelColorSums> topHalfTask = concurrency::create_task(
+        concurrency::task<ULONGLONG> topHalfTask = concurrency::create_task(
             [middle, end, chunkSize]
             {
-                return SumAveragesUsingTasks(middle, end, chunkSize);
+                return AccumulateUsingTasks(middle, end, chunkSize);
             });
 
         return bottomHalfTask.get() + topHalfTask.get();
@@ -36,14 +35,19 @@ PixelColorSums SumAveragesUsingTasks(
 }
 
 DWORD AverageColor_Task(
-        RawBitmap::PixelColorVector::iterator begin,
-        RawBitmap::PixelColorVector::iterator end,
-        UINT chunkSize)
+    ColorIterator blueBegin, ColorIterator blueEnd,
+    ColorIterator greenBegin, ColorIterator greenEnd,
+    ColorIterator redBegin, ColorIterator redEnd,
+    UINT chunkSize)
 {
     if (chunkSize == 0)
     {
         chunkSize = 10000;
     }
 
-    return CalculateAverage(SumAveragesUsingTasks(begin, end, chunkSize), end - begin);
+    BYTE blueAverage = AccumulateUsingTasks(blueBegin, blueEnd, chunkSize) / (blueEnd - blueBegin);
+    BYTE greenAverage = AccumulateUsingTasks(greenBegin, greenEnd, chunkSize) / (greenEnd - greenBegin);
+    BYTE redAverage = AccumulateUsingTasks(redBegin, redEnd, chunkSize) / (redEnd - redBegin);
+
+    return (redAverage << 16) | (greenAverage << 8) | blueAverage;
 }

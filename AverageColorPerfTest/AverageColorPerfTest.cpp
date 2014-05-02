@@ -6,9 +6,7 @@
 #include <iomanip>
 #include <RawBitmap.h>
 #include <AverageColor_Serial.h>
-#include <AverageColor_ParallelForEach.h>
 #include <AverageColor_Task.h>
-#include <AverageColor_ParallelTransform.h>
 
 // Calls the provided work function and returns the number of milliseconds  
 // that it takes to call that function. 
@@ -46,7 +44,10 @@ int _tmain(int argc, _TCHAR* argv[])
         __int64 elapsed = time_call(
             [&]
         {
-            averageColor = AverageColor_Serial(bitmap.begin(), bitmap.end());
+            averageColor = AverageColor_Serial(
+                bitmap.begin(0), bitmap.end(0),
+                bitmap.begin(1), bitmap.end(1),
+                bitmap.begin(2), bitmap.end(2));
         });
 
         std::wcout << L"Elapsed time AverageColor_Serial(): " << elapsed << L" ms" << std::endl;
@@ -55,35 +56,21 @@ int _tmain(int argc, _TCHAR* argv[])
         elapsed = time_call(
             [&]
         {
-            averageColor = AverageColor_ParallelForEach(bitmap.begin(), bitmap.end(), bitmap.Width(), bitmap.Height());
-        });
-
-        std::wcout << L"Elapsed time AverageColor_ParalellForEach(): " << elapsed << L" ms" << std::endl;
-        elapsed_ParallelFor += elapsed;
-
-        elapsed = time_call(
-            [&]
-        {
-            averageColor = AverageColor_Task(bitmap.begin(), bitmap.end(), 100000);
+            averageColor = AverageColor_Task(
+                bitmap.begin(0), bitmap.end(0),
+                bitmap.begin(1), bitmap.end(1),
+                bitmap.begin(2), bitmap.end(2),
+                0);
         });
 
         std::wcout << L"Elapsed time AverageColor_Task(): " << elapsed << L" ms" << std::endl;
         elapsed_Task += elapsed;
 
-        elapsed = time_call(
-            [&]
-        {
-            averageColor = AverageColor_ParallelTransform(bitmap.begin(), bitmap.end(), bitmap.Width(), bitmap.Height());
-        });
-
-        std::wcout << L"Elapsed time AverageColor_ParallelTransform(): " << elapsed << L" ms" << std::endl;
-        elapsed_ParallelTransform += elapsed;
     }
 
     std::wcout << L"Average AverageColor_Serial(): " << elapsed_Serial / iterations << L" ms" << std::endl;
-    std::wcout << L"Average AverageColor_ParallelFor(): " << elapsed_ParallelFor / iterations << L" ms" << std::endl;
-    std::wcout << L"Average AverageColor_Task(): " << elapsed_Task / iterations << L" ms" << std::endl;
-    std::wcout << L"Average AverageColor_ParallelTransform(): " << elapsed_ParallelTransform / iterations << L" ms" << std::endl;
+    std::wcout << L"Average AverageColor_Task(): " << elapsed_Task/ iterations << L" ms" << std::endl;
+
     CoUninitialize();
     return 0;
 }

@@ -12,9 +12,13 @@ namespace UnitTestAverageColorLib
     TEST_CLASS(TestAverageColor_Serial)
     {
     private:
-        void TestForExpected(UINT, UINT, RawBitmap::PixelColorVector pixels, DWORD expected)
+        void TestForExpected(UINT, UINT, std::vector<BYTE> pixels, DWORD expected)
         {
-            DWORD averageColor = AverageColor_Serial(pixels.begin(), pixels.end());
+            DWORD averageColor = AverageColor_Serial(
+                ColorIterator(pixels.begin()), ColorIterator(pixels.end()),
+                ColorIterator(pixels.begin() + 1), ColorIterator(pixels.end() + 1),
+                ColorIterator(pixels.begin() + 2), ColorIterator(pixels.end() + 2));
+
             Assert::AreEqual(expected, averageColor);
         }
 

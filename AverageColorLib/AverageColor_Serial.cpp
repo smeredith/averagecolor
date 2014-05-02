@@ -1,24 +1,17 @@
 #include "stdafx.h"
 #include <numeric>
+#include <ppl.h>
 #include "ColorCalculations.h"
 #include "AverageColor_Serial.h"
 
-PixelColorSums SumAverages(RawBitmap::PixelColorVector::iterator begin, RawBitmap::PixelColorVector::iterator end)
+DWORD AverageColor_Serial(
+    ColorIterator blueBegin, ColorIterator blueEnd,
+    ColorIterator greenBegin, ColorIterator greenEnd,
+    ColorIterator redBegin, ColorIterator redEnd)
 {
-    PixelColorSums totals = {};
-    std::for_each(begin, end,
-        [&totals](RawBitmap::PixelColor pixelColor)
-        {
-            for (size_t c = 0; c < pixelColor.size(); ++c)
-            {
-                totals[c] += pixelColor[c];
-            }
-        });
+    BYTE blueAverage = std::accumulate(blueBegin, blueEnd, 0ULL) / (blueEnd - blueBegin);
+    BYTE greenAverage = std::accumulate(greenBegin, greenEnd, 0ULL) / (greenEnd - greenBegin);
+    BYTE redAverage = std::accumulate(redBegin, redEnd, 0ULL) / (redEnd - redBegin);
 
-    return totals;
-}
-
-DWORD AverageColor_Serial(RawBitmap::PixelColorVector::iterator begin, RawBitmap::PixelColorVector::iterator end)
-{
-    return CalculateAverage(SumAverages(begin, end), end - begin);
+    return (redAverage << 16) | (greenAverage << 8) | blueAverage;
 }

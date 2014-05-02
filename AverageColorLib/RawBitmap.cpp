@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "RawBitmap.h"
 #include <wincodec.h>
+#include "RawBitmap.h"
 
 using namespace Microsoft::WRL;
 
@@ -37,20 +37,17 @@ HRESULT RawBitmap::InitFromFile(PCWSTR pFilename)
 
     IF_FAIL_RETURN(pFrame->GetSize(&m_width, &m_height));
 
-    // Make a buffer to hold the bytes of the decoded image. This is a vector of 3-byte
-    // arrays, where each byte in the array holds the RGB values for a single pixel. This
-    // is so it is possible to iterate through 1 pixel at a time instead of 1 byte at a time.
-    m_bitmap.resize(m_width * m_height);
+    const UINT colorCount = 3;
 
-    const UINT colorCount = sizeof(PixelColorVector::value_type);
+    // Make a buffer to hold the bytes of the decoded image.
+    m_bitmap.resize(m_width * m_height * colorCount);
 
-    // Decode the image into the buffer. The buffer appears as a single array of BYTES to
-    // this function.
+    // Decode the image into the buffer.
     IF_FAIL_RETURN(pFrame->CopyPixels(
                 0, // entire bitmap
                 m_width * colorCount, // stride
                 m_bitmap.size() * colorCount, // buffer size
-                reinterpret_cast<BYTE*>(m_bitmap.data())
+                m_bitmap.data()
                 ));
 
     return S_OK;
