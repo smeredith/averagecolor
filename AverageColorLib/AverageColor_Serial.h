@@ -1,8 +1,7 @@
 #pragma once
 
-#include "RawBitmap.h"
+#include <vector>
 
 DWORD AverageColor_Serial(
-    const ColorIterator& blueBegin, const ColorIterator& blueEnd,
-    const ColorIterator& greenBegin, const ColorIterator& greenEnd,
-    const ColorIterator& redBegin, const ColorIterator& redEnd);
+    const std::vector<BYTE>::const_iterator& begin,
+    const std::vector<BYTE>::const_iterator& end);

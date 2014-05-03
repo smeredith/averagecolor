@@ -6,12 +6,12 @@
 #include <iomanip>
 #include <vector>
 #include <algorithm>
-#include <RawBitmap.h>
 #include <AverageColor_Serial.h>
 #include <AverageColor_Task.h>
 #include <AverageColor_ParallelInvoke.h>
 #include <AverageColor_ParallelReduce.h>
 #include <AverageColor_ParallelInvokeReduce.h>
+#include <AverageColor_While.h>
 
 // Calls the provided work function and returns the number of milliseconds
 // that it takes to call that function.
@@ -40,13 +40,14 @@ int _tmain(int argc, _TCHAR* argv[])
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
     // Make a big bitmap.
-    std::vector<BYTE> bitmap(300000000);
+    std::vector<BYTE> pixels(300000000);
 
     // Initialize it with the pattern 0,1,2,0,1,2...
     ColorGen colorGen;
-    std::generate(bitmap.begin(), bitmap.end(), colorGen);
+    std::generate(pixels.begin(), pixels.end(), colorGen);
 
     // Total times for each implementation.
+    __int64 elapsed_While = 0;
     __int64 elapsed_Serial = 0;
     __int64 elapsed_Task = 0;
     __int64 elapsed_ParallelInvoke = 0;
@@ -63,10 +64,16 @@ int _tmain(int argc, _TCHAR* argv[])
         elapsed = time_call(
             [&]
         {
-            averageColor = AverageColor_Serial(
-                ColorIterator(bitmap.cbegin()), ColorIterator(bitmap.cend()),
-                ColorIterator(bitmap.cbegin()+1), ColorIterator(bitmap.cend()+1),
-                ColorIterator(bitmap.cbegin()+2), ColorIterator(bitmap.cend()+2));
+            averageColor = AverageColor_While(pixels.cbegin(), pixels.cend());
+        });
+
+        std::wcout << averageColor << L" Elapsed time AverageColor_While(): " << elapsed << L" ms" << std::endl;
+        elapsed_While += elapsed;
+
+        elapsed = time_call(
+            [&]
+        {
+            averageColor = AverageColor_Serial(pixels.cbegin(), pixels.cend());
         });
 
         std::wcout << averageColor << L" Elapsed time AverageColor_Serial(): " << elapsed << L" ms" << std::endl;
@@ -75,11 +82,7 @@ int _tmain(int argc, _TCHAR* argv[])
         elapsed = time_call(
             [&]
         {
-            averageColor = AverageColor_Task(
-                ColorIterator(bitmap.cbegin()), ColorIterator(bitmap.cend()),
-                ColorIterator(bitmap.cbegin()+1), ColorIterator(bitmap.cend()+1),
-                ColorIterator(bitmap.cbegin()+2), ColorIterator(bitmap.cend()+2),
-                0);
+            averageColor = AverageColor_Task(pixels.cbegin(), pixels.cend());
         });
 
         std::wcout << averageColor << L" Elapsed time AverageColor_Task(): " << elapsed << L" ms" << std::endl;
@@ -88,10 +91,7 @@ int _tmain(int argc, _TCHAR* argv[])
         elapsed = time_call(
             [&]
         {
-            averageColor = AverageColor_ParallelInvoke(
-                ColorIterator(bitmap.cbegin()), ColorIterator(bitmap.cend()),
-                ColorIterator(bitmap.cbegin()+1), ColorIterator(bitmap.cend()+1),
-                ColorIterator(bitmap.cbegin()+2), ColorIterator(bitmap.cend()+2));
+            averageColor = AverageColor_ParallelInvoke(pixels.cbegin(), pixels.cend());
         });
 
         std::wcout << averageColor << L" Elapsed time AverageColor_ParallelInvoke(): " << elapsed << L" ms" << std::endl;
@@ -100,10 +100,7 @@ int _tmain(int argc, _TCHAR* argv[])
         elapsed = time_call(
             [&]
         {
-            averageColor = AverageColor_ParallelReduce(
-                ColorIterator(bitmap.cbegin()), ColorIterator(bitmap.cend()),
-                ColorIterator(bitmap.cbegin()+1), ColorIterator(bitmap.cend()+1),
-                ColorIterator(bitmap.cbegin()+2), ColorIterator(bitmap.cend()+2));
+            averageColor = AverageColor_ParallelReduce(pixels.cbegin(), pixels.cend());
         });
 
         std::wcout << averageColor << L" Elapsed time AverageColor_ParallelReduce(): " << elapsed << L" ms" << std::endl;
@@ -112,16 +109,14 @@ int _tmain(int argc, _TCHAR* argv[])
         elapsed = time_call(
             [&]
         {
-            averageColor = AverageColor_ParallelInvokeReduce(
-                ColorIterator(bitmap.cbegin()), ColorIterator(bitmap.cend()),
-                ColorIterator(bitmap.cbegin()+1), ColorIterator(bitmap.cend()+1),
-                ColorIterator(bitmap.cbegin()+2), ColorIterator(bitmap.cend()+2));
+            averageColor = AverageColor_ParallelInvokeReduce(pixels.cbegin(), pixels.cend());
         });
 
         std::wcout << averageColor << L" Elapsed time AverageColor_ParallelInvokeReduce(): " << elapsed << L" ms" << std::endl;
         elapsed_ParallelInvokeReduce += elapsed;
     }
 
+    std::wcout << L"Average AverageColor_While(): " << elapsed_While / iterations << L" ms" << std::endl;
     std::wcout << L"Average AverageColor_Serial(): " << elapsed_Serial / iterations << L" ms" << std::endl;
     std::wcout << L"Average AverageColor_Task(): " << elapsed_Task / iterations << L" ms" << std::endl;
     std::wcout << L"Average AverageColor_ParallelInvoke(): " << elapsed_ParallelInvoke / iterations << L" ms" << std::endl;

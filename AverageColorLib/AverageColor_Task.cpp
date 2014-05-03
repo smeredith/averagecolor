@@ -1,7 +1,11 @@
 #include "stdafx.h"
 #include <numeric>
 #include <ppltasks.h>
+#include "EveryNIterator.h"
 #include "AverageColor_Task.h"
+
+// An iterator to iterator over all bytes of one color.
+typedef EveryNIterator<std::vector<BYTE>::const_iterator, 3> ColorIterator;
 
 // Divide and conquer version of SumAverages() that uses tasks.  ChunkSize represents the
 // number of iterations in a single work unit. If there is more work than this, it gets
@@ -35,19 +39,16 @@ ULONGLONG AccumulateUsingTasks(
 }
 
 DWORD AverageColor_Task(
-    const ColorIterator& blueBegin, const ColorIterator& blueEnd,
-    const ColorIterator& greenBegin, const ColorIterator& greenEnd,
-    const ColorIterator& redBegin, const ColorIterator& redEnd,
-    UINT chunkSize)
+    const std::vector<BYTE>::const_iterator& begin,
+    const std::vector<BYTE>::const_iterator& end)
 {
-    if (chunkSize == 0)
-    {
-        chunkSize = 5000;
-    }
+    // Chunksize is the approximate size of one chunk of work for a task, in the number of
+    // pixels to process.
+    UINT chunkSize = 10000;
 
-    BYTE blueAverage = AccumulateUsingTasks(blueBegin, blueEnd, chunkSize) / (blueEnd - blueBegin);
-    BYTE greenAverage = AccumulateUsingTasks(greenBegin, greenEnd, chunkSize) / (greenEnd - greenBegin);
-    BYTE redAverage = AccumulateUsingTasks(redBegin, redEnd, chunkSize) / (redEnd - redBegin);
+    BYTE blueAverage = AccumulateUsingTasks(ColorIterator(begin), ColorIterator(end), chunkSize) / ((end - begin) / 3);
+    BYTE greenAverage = AccumulateUsingTasks(ColorIterator(begin+1), ColorIterator(end+1), chunkSize) / ((end - begin) / 3);
+    BYTE redAverage = AccumulateUsingTasks(ColorIterator(begin+2), ColorIterator(end+2), chunkSize) / ((end - begin) / 3);
 
     return (redAverage << 16) | (greenAverage << 8) | blueAverage;
 }

@@ -47,6 +47,9 @@
     <ClCompile Include="UT_AverageColor_ParallelInvokeReduce.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UT_AverageColor_While.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\AverageColorPerfTest\ReadMe.txt" />

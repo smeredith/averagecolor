@@ -3,10 +3,6 @@
 #pragma once
 
 #include <vector>
-#include "EveryNIterator.h"
-
-// An iterator to iterator over all bytes of one color.
-typedef EveryNIterator<std::vector<BYTE>::const_iterator, 3> ColorIterator;
 
 class RawBitmap
 {
@@ -14,9 +10,8 @@ class RawBitmap
 
         HRESULT InitFromFile(PCWSTR pFilename);
 
-        // Get an iterator for one color.
-        ColorIterator cbegin(size_t color) { return ColorIterator(m_bitmap.cbegin() + color); };
-        ColorIterator cend(size_t color) { return ColorIterator(m_bitmap.cend() + color); };
+        std::vector<BYTE>::const_iterator cbegin() { return m_bitmap.cbegin(); };
+        std::vector<BYTE>::const_iterator cend() { return m_bitmap.cend(); };
         UINT Width() const { return m_width; };
         UINT Height() const { return m_height; };
 

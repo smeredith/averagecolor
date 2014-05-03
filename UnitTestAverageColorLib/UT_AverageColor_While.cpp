@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include <AverageColor_ParallelTransform.h>
+#include <AverageColor_While.h>
 #include "AverageColorTestSet.h"
 
 
@@ -8,12 +8,13 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTestAverageColorLib
 {
-    TEST_CLASS(TestAverageColor_ParallelTransform)
+    TEST_CLASS(TestAverageColor_While)
     {
     private:
-        void TestForExpected(UINT width, UINT height, RawBitmap::PixelColorVector pixels, DWORD expected)
+        void TestForExpected(UINT, UINT, std::vector<BYTE> pixels, DWORD expected)
         {
-            DWORD averageColor = AverageColor_ParallelTransform(pixels.begin(), pixels.end(), width, height);
+            DWORD averageColor = AverageColor_While(pixels.cbegin(), pixels.cend());
+
             Assert::AreEqual(expected, averageColor);
         }
 
