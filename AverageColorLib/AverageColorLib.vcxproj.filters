@@ -65,9 +65,6 @@
     <ClCompile Include="AverageColor_Serial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ColorCalculations.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AverageColor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

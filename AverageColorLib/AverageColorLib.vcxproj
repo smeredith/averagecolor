@@ -93,7 +93,6 @@
     <ClCompile Include="AverageColor_Serial.cpp" />
     <ClCompile Include="AverageColor_Task.cpp" />
     <ClCompile Include="AverageColor_While.cpp" />
-    <ClCompile Include="ColorCalculations.cpp" />
     <ClCompile Include="RawBitmap.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
