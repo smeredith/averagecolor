@@ -2,17 +2,18 @@
 
 #include <iterator>
 
-// Iterate over an array of T as if only every nth element exists.
-template <typename T, int n>
-class EveryNIterator : public std::iterator<std::random_access_iterator_tag, T>
+// Iterate over an array of It as if only every nth element exists.
+// Initialize from a normal iterator.
+template <typename It, int n>
+class EveryNIterator : public std::iterator<std::random_access_iterator_tag, It>
 {
     public:
-        explicit EveryNIterator(const T& iterator)
+        explicit EveryNIterator(const It& iterator)
         : m_realIterator(iterator)
         {
         }
 
-        EveryNIterator(T&& iterator)
+        EveryNIterator(It&& iterator)
         : m_realIterator(std::move(iterator))
         {
         }
@@ -22,12 +23,12 @@ class EveryNIterator : public std::iterator<std::random_access_iterator_tag, T>
         {
         }
 
-        EveryNIterator& operator=(T&& rhs)
+        EveryNIterator& operator=(It&& rhs)
         {
             m_realIterator = std::move(rhs.m_realIterator);
         }
 
-        typename std::iterator_traits<T>::value_type operator*() const
+        typename std::iterator_traits<It>::value_type operator*() const
         {
            return *m_realIterator;
         }
@@ -51,14 +52,14 @@ class EveryNIterator : public std::iterator<std::random_access_iterator_tag, T>
             return *this;
         }
 
-        typename std::iterator_traits<T>::difference_type operator-(const EveryNIterator& other) const
+        typename std::iterator_traits<It>::difference_type operator-(const EveryNIterator& other) const
         {
             return (m_realIterator - other.m_realIterator) / n;
         }
 
         EveryNIterator operator+ (size_t rhs) const
         {
-            return EveryNIterator<T, n>(m_realIterator + (rhs * n));
+            return EveryNIterator<It, n>(m_realIterator + (rhs * n));
         }
 
         bool operator!=(const EveryNIterator& other) const
@@ -73,5 +74,5 @@ class EveryNIterator : public std::iterator<std::random_access_iterator_tag, T>
 
     private:
 
-        T m_realIterator;
+        It m_realIterator;
 };

@@ -44,7 +44,7 @@ DWORD AverageColor_Task(
 {
     // Chunksize is the approximate size of one chunk of work for a task, in the number of
     // pixels to process.
-    UINT chunkSize = 10000;
+    const UINT chunkSize = 10000;
 
     concurrency::task<ULONGLONG> blueSum = concurrency::create_task(
         [begin, end, chunkSize]()
@@ -65,9 +65,11 @@ DWORD AverageColor_Task(
 #pragma warning(push)
 #pragma warning(disable : 4244) // Guaranteed to fit into a byte because the sum accumulated bytes.
 
-    BYTE blueAverage = blueSum.get() / ((end - begin) / 3);
-    BYTE redAverage = redSum.get() / ((end - begin) / 3);
-    BYTE greenAverage = greenSum.get() / ((end - begin) / 3);
+    const size_t pixelCount = (end - begin) / 3;
+
+    BYTE blueAverage = blueSum.get() / pixelCount;
+    BYTE redAverage = redSum.get() / pixelCount;
+    BYTE greenAverage = greenSum.get() / pixelCount;
 
 #pragma warning(pop)
 

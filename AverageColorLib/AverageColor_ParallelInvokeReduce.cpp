@@ -15,27 +15,29 @@ DWORD AverageColor_ParallelInvokeReduce(
     BYTE greenAverage;
     BYTE redAverage;
 
+    const size_t pixelCount = (end - begin) / 3;
+
 #pragma warning(push)
 #pragma warning(disable : 4244) // Guaranteed to fit into a byte because the sum accumulated bytes.
 
     concurrency::parallel_invoke(
-        [&blueAverage, begin, end]()
+        [&blueAverage, begin, end, pixelCount]()
         {
             blueAverage = concurrency::parallel_reduce(ColorIterator(begin), ColorIterator(end), 0ULL,
                     std::accumulate<ColorIterator, ULONGLONG>,
-                    [](ULONGLONG a, ULONGLONG b){return a+b;}) / ((end - begin) / 3);
+                    [](ULONGLONG a, ULONGLONG b){return a+b;}) / pixelCount;
         },
-        [&greenAverage, begin, end]()
+        [&greenAverage, begin, end, pixelCount]()
         {
             greenAverage = concurrency::parallel_reduce(ColorIterator(begin+1), ColorIterator(end+1), 0ULL,
                     std::accumulate<ColorIterator, ULONGLONG>,
-                    [](ULONGLONG a, ULONGLONG b){return a+b;}) / ((end - begin) / 3);
+                    [](ULONGLONG a, ULONGLONG b){return a+b;}) / pixelCount;
         },
-        [&redAverage, begin, end]()
+        [&redAverage, begin, end, pixelCount]()
         {
             redAverage = concurrency::parallel_reduce(ColorIterator(begin+2), ColorIterator(end+2), 0ULL,
                     std::accumulate<ColorIterator, ULONGLONG>,
-                    [](ULONGLONG a, ULONGLONG b){return a+b;}) / ((end - begin) / 3);
+                    [](ULONGLONG a, ULONGLONG b){return a+b;}) / pixelCount;
         });
 
 #pragma warning(pop)

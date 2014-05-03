@@ -21,9 +21,11 @@ DWORD AverageColor_While(
 #pragma warning(push)
 #pragma warning(disable : 4244) // Guaranteed to fit into a byte because the sum accumulated bytes.
 
-    BYTE blueAverage = blueSum / ((end - begin) / 3);
-    BYTE greenAverage = greenSum / ((end - begin) / 3);
-    BYTE redAverage = redSum / ((end - begin) / 3);
+    const size_t pixelCount = (end - begin) / 3;
+
+    BYTE blueAverage = blueSum / pixelCount;
+    BYTE greenAverage = greenSum / pixelCount;
+    BYTE redAverage = redSum / pixelCount;
 
 #pragma warning(pop)
 
