@@ -38,7 +38,7 @@ namespace UnitTestAverageColorLib
 
         TEST_METHOD(EveryNIterator_BYTE_PostInc_ShouldFindNthElement)
         {
-            std::vector<BYTE> input = { 0, 1, 2, 3, 4, 5 };
+            std::vector<BYTE> input = {0,1,2,3,4,5};
 
             EveryNIterator<std::vector<BYTE>::iterator, 1> iter1(input.begin());
             for (BYTE i = 0; i < input.size(); ++i)
@@ -108,6 +108,14 @@ namespace UnitTestAverageColorLib
 
             EveryNIterator<std::vector<int>::const_iterator, 2> endIter(input.end());
             Assert::AreEqual(4, *(endIter + -1));
+        }
+
+        TEST_METHOD(EveryNIterator_SubtractionOfPositive_ShouldBeCorrent)
+        {
+            std::vector<int> input = {0,1,2,3,4,5};
+
+            EveryNIterator<std::vector<int>::const_iterator, 2> endIter(input.end());
+            Assert::AreEqual(4, *(endIter - 1));
         }
 
         TEST_METHOD(EveryNIterator_NotEqual_ShouldBeTrueForDifferentIterators)

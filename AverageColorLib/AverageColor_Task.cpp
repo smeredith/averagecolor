@@ -12,10 +12,13 @@ typedef EveryNIterator<std::vector<BYTE>::const_iterator, 3> ColorIterator;
 // recursively divided into two more tasks.
 ULONGLONG AccumulateUsingTasks(
         const ColorIterator& begin,
-        const ColorIterator& end,
-        UINT chunkSize)
+        const ColorIterator& end)
 {
-    if ((static_cast<UINT>(end - begin) < chunkSize) || (chunkSize < 2))
+    // Chunksize is the approximate size of one chunk of work for a task, in the number of
+    // pixels to process.
+    const size_t chunkSize = 200000;
+
+    if ((end - begin) < chunkSize)
     {
         return std::accumulate(begin, end, 0ULL);
     }
@@ -23,15 +26,15 @@ ULONGLONG AccumulateUsingTasks(
     {
         ColorIterator middle = begin + ((end - begin) / 2);
         concurrency::task<ULONGLONG> bottomHalfTask = concurrency::create_task(
-            [begin, middle, chunkSize]
+            [begin, middle]
             {
-                return AccumulateUsingTasks(begin, middle, chunkSize);
+                return AccumulateUsingTasks(begin, middle);
             });
 
         concurrency::task<ULONGLONG> topHalfTask = concurrency::create_task(
-            [middle, end, chunkSize]
+            [middle, end]
             {
-                return AccumulateUsingTasks(middle, end, chunkSize);
+                return AccumulateUsingTasks(middle, end);
             });
 
         return bottomHalfTask.get() + topHalfTask.get();
@@ -42,24 +45,20 @@ DWORD AverageColor_Task(
     const std::vector<BYTE>::const_iterator& begin,
     const std::vector<BYTE>::const_iterator& end)
 {
-    // Chunksize is the approximate size of one chunk of work for a task, in the number of
-    // pixels to process.
-    const UINT chunkSize = 10000;
-
     concurrency::task<ULONGLONG> blueSum = concurrency::create_task(
-        [begin, end, chunkSize]()
+        [begin, end]()
         {
-            return AccumulateUsingTasks(ColorIterator(begin), ColorIterator(end), chunkSize);
+            return AccumulateUsingTasks(ColorIterator(begin), ColorIterator(end));
         });
     concurrency::task<ULONGLONG> greenSum = concurrency::create_task(
-        [begin, end, chunkSize]()
+        [begin, end]()
         {
-            return AccumulateUsingTasks(ColorIterator(begin+1), ColorIterator(end+1), chunkSize);
+            return AccumulateUsingTasks(ColorIterator(begin+1), ColorIterator(end+1));
         });
     concurrency::task<ULONGLONG> redSum = concurrency::create_task(
-        [begin, end, chunkSize]()
+        [begin, end]()
         {
-            return AccumulateUsingTasks(ColorIterator(begin+2), ColorIterator(end+2), chunkSize);
+            return AccumulateUsingTasks(ColorIterator(begin+2), ColorIterator(end+2));
         });
 
 #pragma warning(push)

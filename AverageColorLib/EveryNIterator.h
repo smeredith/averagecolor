@@ -2,10 +2,10 @@
 
 #include <iterator>
 
-// Iterate over an array of It as if only every nth element exists.
-// Initialize from a normal iterator.
+// Iterate over a container as if only every nth element exists.
+// Initialize from a normal iterator for that container.
 template <typename It, int n>
-class EveryNIterator : public std::iterator<std::random_access_iterator_tag, It>
+class EveryNIterator : public std::iterator<std::random_access_iterator_tag, typename std::iterator_traits<It>::value_type>
 {
     public:
         explicit EveryNIterator(const It& iterator)
@@ -30,7 +30,7 @@ class EveryNIterator : public std::iterator<std::random_access_iterator_tag, It>
 
         typename std::iterator_traits<It>::value_type operator*() const
         {
-           return *m_realIterator;
+            return *m_realIterator;
         }
 
         EveryNIterator& operator++()
@@ -57,9 +57,14 @@ class EveryNIterator : public std::iterator<std::random_access_iterator_tag, It>
             return (m_realIterator - other.m_realIterator) / n;
         }
 
-        EveryNIterator operator+ (size_t rhs) const
+        EveryNIterator operator+(size_t rhs) const
         {
             return EveryNIterator<It, n>(m_realIterator + (rhs * n));
+        }
+
+        EveryNIterator operator-(size_t rhs) const
+        {
+            return EveryNIterator<It, n>(m_realIterator - (rhs * n));
         }
 
         bool operator!=(const EveryNIterator& other) const
