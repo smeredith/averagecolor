@@ -90,15 +90,17 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="UT_AverageColor_ParallelForEach.cpp" />
+    <ClCompile Include="UT_AverageColor_ParallelInvoke.cpp" />
+    <ClCompile Include="UT_AverageColor_ParallelInvokeReduce.cpp" />
+    <ClCompile Include="UT_AverageColor_ParallelReduce.cpp" />
     <ClCompile Include="UT_AverageColor_Serial.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="UT_AverageColor_Task.cpp" />
-    <ClCompile Include="UT_AverageColor_ParallelTransform.cpp" />
-    <ClCompile Include="UT_ColorCalculations.cpp" />
+    <ClCompile Include="UT_AverageColor_While.cpp" />
+    <ClCompile Include="UT_EveryNIterator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AverageColorLib\AverageColorLib.vcxproj">

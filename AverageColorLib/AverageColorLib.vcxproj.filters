@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -45,12 +42,21 @@
     <ClInclude Include="AverageColor_Task.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EveryNIterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_ParallelInvoke.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_ParallelReduce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_ParallelInvokeReduce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AverageColor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RawBitmap.cpp">
@@ -59,16 +65,22 @@
     <ClCompile Include="AverageColor_Serial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AverageColor_ParallelForEach.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ColorCalculations.cpp">
+    <ClCompile Include="AverageColor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AverageColor_Task.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AverageColor_ParallelTransform.cpp">
+    <ClCompile Include="AverageColor_ParallelInvoke.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_ParallelReduce.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_ParallelInvokeReduce.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_While.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

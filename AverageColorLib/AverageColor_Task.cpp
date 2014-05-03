@@ -1,34 +1,40 @@
 #include "stdafx.h"
+#include <numeric>
 #include <ppltasks.h>
-#include "ColorCalculations.h"
-#include "AverageColor_Serial.h"
+#include "EveryNIterator.h"
 #include "AverageColor_Task.h"
+
+// An iterator to iterator over all bytes of one color.
+typedef EveryNIterator<std::vector<BYTE>::const_iterator, 3> ColorIterator;
 
 // Divide and conquer version of SumAverages() that uses tasks.  ChunkSize represents the
 // number of iterations in a single work unit. If there is more work than this, it gets
 // recursively divided into two more tasks.
-PixelColorSums SumAveragesUsingTasks(
-        RawBitmap::PixelColorVector::iterator begin,
-        RawBitmap::PixelColorVector::iterator end,
-        UINT chunkSize)
+ULONGLONG AccumulateUsingTasks(
+        const ColorIterator& begin,
+        const ColorIterator& end)
 {
-    if ((static_cast<UINT>(end - begin) < chunkSize) || (chunkSize < 2))
+    // Chunksize is the approximate size of one chunk of work for a task, in the number of
+    // pixels to process.
+    const size_t chunkSize = 200000;
+
+    if ((end - begin) < chunkSize)
     {
-        return SumAverages(begin, end);
+        return std::accumulate(begin, end, 0ULL);
     }
     else
     {
-        RawBitmap::PixelColorVector::iterator middle = begin + ((end - begin) / 2);
-        concurrency::task<PixelColorSums> bottomHalfTask = concurrency::create_task(
-            [begin, middle, chunkSize]
+        ColorIterator middle = begin + ((end - begin) / 2);
+        concurrency::task<ULONGLONG> bottomHalfTask = concurrency::create_task(
+            [begin, middle]
             {
-                return SumAveragesUsingTasks(begin, middle, chunkSize);
+                return AccumulateUsingTasks(begin, middle);
             });
 
-        concurrency::task<PixelColorSums> topHalfTask = concurrency::create_task(
-            [middle, end, chunkSize]
+        concurrency::task<ULONGLONG> topHalfTask = concurrency::create_task(
+            [middle, end]
             {
-                return SumAveragesUsingTasks(middle, end, chunkSize);
+                return AccumulateUsingTasks(middle, end);
             });
 
         return bottomHalfTask.get() + topHalfTask.get();
@@ -36,14 +42,35 @@ PixelColorSums SumAveragesUsingTasks(
 }
 
 DWORD AverageColor_Task(
-        RawBitmap::PixelColorVector::iterator begin,
-        RawBitmap::PixelColorVector::iterator end,
-        UINT chunkSize)
+    const std::vector<BYTE>::const_iterator& begin,
+    const std::vector<BYTE>::const_iterator& end)
 {
-    if (chunkSize == 0)
-    {
-        chunkSize = 10000;
-    }
+    concurrency::task<ULONGLONG> blueSum = concurrency::create_task(
+        [begin, end]()
+        {
+            return AccumulateUsingTasks(ColorIterator(begin), ColorIterator(end));
+        });
+    concurrency::task<ULONGLONG> greenSum = concurrency::create_task(
+        [begin, end]()
+        {
+            return AccumulateUsingTasks(ColorIterator(begin+1), ColorIterator(end+1));
+        });
+    concurrency::task<ULONGLONG> redSum = concurrency::create_task(
+        [begin, end]()
+        {
+            return AccumulateUsingTasks(ColorIterator(begin+2), ColorIterator(end+2));
+        });
 
-    return CalculateAverage(SumAveragesUsingTasks(begin, end, chunkSize), end - begin);
+#pragma warning(push)
+#pragma warning(disable : 4244) // Guaranteed to fit into a byte because the sum accumulated bytes.
+
+    const size_t pixelCount = (end - begin) / 3;
+
+    BYTE blueAverage = blueSum.get() / pixelCount;
+    BYTE redAverage = redSum.get() / pixelCount;
+    BYTE greenAverage = greenSum.get() / pixelCount;
+
+#pragma warning(pop)
+
+    return (redAverage << 16) | (greenAverage << 8) | blueAverage;
 }

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "RawBitmap.h"
-#include "ColorCalculations.h"
+#include <vector>
 
-PixelColorSums SumAverages(RawBitmap::PixelColorVector::iterator begin, RawBitmap::PixelColorVector::iterator end);
-DWORD AverageColor_Serial(RawBitmap::PixelColorVector::iterator begin, RawBitmap::PixelColorVector::iterator end);
+DWORD AverageColor_Serial(
+    const std::vector<BYTE>::const_iterator& begin,
+    const std::vector<BYTE>::const_iterator& end);

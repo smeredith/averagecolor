@@ -1,24 +1,25 @@
 #include "stdafx.h"
 #include <numeric>
-#include "ColorCalculations.h"
+#include "EveryNIterator.h"
 #include "AverageColor_Serial.h"
 
-PixelColorSums SumAverages(RawBitmap::PixelColorVector::iterator begin, RawBitmap::PixelColorVector::iterator end)
+DWORD AverageColor_Serial(
+    const std::vector<BYTE>::const_iterator& begin,
+    const std::vector<BYTE>::const_iterator& end)
 {
-    PixelColorSums totals = {};
-    std::for_each(begin, end,
-        [&totals](RawBitmap::PixelColor pixelColor)
-        {
-            for (size_t c = 0; c < pixelColor.size(); ++c)
-            {
-                totals[c] += pixelColor[c];
-            }
-        });
+    // An iterator to iterator over all bytes of one color.
+    typedef EveryNIterator<std::vector<BYTE>::const_iterator, 3> ColorIterator;
 
-    return totals;
-}
+    const size_t pixelCount = (end - begin) / 3;
 
-DWORD AverageColor_Serial(RawBitmap::PixelColorVector::iterator begin, RawBitmap::PixelColorVector::iterator end)
-{
-    return CalculateAverage(SumAverages(begin, end), end - begin);
+#pragma warning(push)
+#pragma warning(disable : 4244) // Guaranteed to fit into a byte because the sum accumulated bytes.
+
+    BYTE blueAverage = std::accumulate(ColorIterator(begin), ColorIterator(end), 0ULL) / pixelCount;
+    BYTE greenAverage = std::accumulate(ColorIterator(begin+1), ColorIterator(end+1), 0ULL) / pixelCount;
+    BYTE redAverage = std::accumulate(ColorIterator(begin+2), ColorIterator(end+2), 0ULL) / pixelCount;
+
+#pragma warning(pop)
+
+    return (redAverage << 16) | (greenAverage << 8) | blueAverage;
 }

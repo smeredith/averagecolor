@@ -4,14 +4,17 @@
 #include "stdafx.h"
 #include <iostream>
 #include <iomanip>
-#include <RawBitmap.h>
+#include <vector>
+#include <algorithm>
 #include <AverageColor_Serial.h>
-#include <AverageColor_ParallelForEach.h>
 #include <AverageColor_Task.h>
-#include <AverageColor_ParallelTransform.h>
+#include <AverageColor_ParallelInvoke.h>
+#include <AverageColor_ParallelReduce.h>
+#include <AverageColor_ParallelInvokeReduce.h>
+#include <AverageColor_While.h>
 
-// Calls the provided work function and returns the number of milliseconds  
-// that it takes to call that function. 
+// Calls the provided work function and returns the number of milliseconds
+// that it takes to call that function.
 template <class Function>
 __int64 time_call(Function&& f)
 {
@@ -20,71 +23,106 @@ __int64 time_call(Function&& f)
     return GetTickCount64() - begin;
 }
 
+// Fuctor to initialze a vector of BYTES with the repeating pattern 0,1,2,0,1,2... when
+// passed to std::generate().
+class ColorGen
+{
+    public:
+        BYTE operator()() { return m_total++ % 3; }
+
+    private:
+        UINT m_total = 0;
+};
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
-    RawBitmap bitmap;
-    HRESULT hr = bitmap.InitFromFile(L"..\\TestFiles\\10000x10000_8080ff.jpg");
+    // Make a big bitmap.
+    std::vector<BYTE> pixels(300000000);
 
-    if (FAILED(hr))
-    {
-        std::wcout << L"Failed: " << hr << std::endl;
-        return -1;
-    }
+    // Initialize it with the pattern 0,1,2,0,1,2...
+    ColorGen colorGen;
+    std::generate(pixels.begin(), pixels.end(), colorGen);
 
-    DWORD averageColor;
+    // Total times for each implementation.
+    __int64 elapsed_While = 0;
     __int64 elapsed_Serial = 0;
-    __int64 elapsed_ParallelFor = 0;
     __int64 elapsed_Task = 0;
-    __int64 elapsed_ParallelTransform = 0;
+    __int64 elapsed_ParallelInvoke = 0;
+    __int64 elapsed_ParallelReduce = 0;
+    __int64 elapsed_ParallelInvokeReduce = 0;
 
-    size_t iterations = 10;
+    const size_t iterations = 10;
 
     for (size_t i = 0; i < iterations; ++i)
     {
-        __int64 elapsed = time_call(
+        DWORD averageColor;
+        __int64 elapsed;
+
+        elapsed = time_call(
             [&]
         {
-            averageColor = AverageColor_Serial(bitmap.begin(), bitmap.end());
+            averageColor = AverageColor_While(pixels.cbegin(), pixels.cend());
         });
 
-        std::wcout << L"Elapsed time AverageColor_Serial(): " << elapsed << L" ms" << std::endl;
+        std::wcout << averageColor << L" Elapsed time AverageColor_While(): " << elapsed << L" ms" << std::endl;
+        elapsed_While += elapsed;
+
+        elapsed = time_call(
+            [&]
+        {
+            averageColor = AverageColor_Serial(pixels.cbegin(), pixels.cend());
+        });
+
+        std::wcout << averageColor << L" Elapsed time AverageColor_Serial(): " << elapsed << L" ms" << std::endl;
         elapsed_Serial += elapsed;
 
         elapsed = time_call(
             [&]
         {
-            averageColor = AverageColor_ParallelForEach(bitmap.begin(), bitmap.end(), bitmap.Width(), bitmap.Height());
+            averageColor = AverageColor_Task(pixels.cbegin(), pixels.cend());
         });
 
-        std::wcout << L"Elapsed time AverageColor_ParalellForEach(): " << elapsed << L" ms" << std::endl;
-        elapsed_ParallelFor += elapsed;
-
-        elapsed = time_call(
-            [&]
-        {
-            averageColor = AverageColor_Task(bitmap.begin(), bitmap.end(), 100000);
-        });
-
-        std::wcout << L"Elapsed time AverageColor_Task(): " << elapsed << L" ms" << std::endl;
+        std::wcout << averageColor << L" Elapsed time AverageColor_Task(): " << elapsed << L" ms" << std::endl;
         elapsed_Task += elapsed;
 
         elapsed = time_call(
             [&]
         {
-            averageColor = AverageColor_ParallelTransform(bitmap.begin(), bitmap.end(), bitmap.Width(), bitmap.Height());
+            averageColor = AverageColor_ParallelInvoke(pixels.cbegin(), pixels.cend());
         });
 
-        std::wcout << L"Elapsed time AverageColor_ParallelTransform(): " << elapsed << L" ms" << std::endl;
-        elapsed_ParallelTransform += elapsed;
+        std::wcout << averageColor << L" Elapsed time AverageColor_ParallelInvoke(): " << elapsed << L" ms" << std::endl;
+        elapsed_ParallelInvoke += elapsed;
+
+        elapsed = time_call(
+            [&]
+        {
+            averageColor = AverageColor_ParallelReduce(pixels.cbegin(), pixels.cend());
+        });
+
+        std::wcout << averageColor << L" Elapsed time AverageColor_ParallelReduce(): " << elapsed << L" ms" << std::endl;
+        elapsed_ParallelReduce += elapsed;
+
+        elapsed = time_call(
+            [&]
+        {
+            averageColor = AverageColor_ParallelInvokeReduce(pixels.cbegin(), pixels.cend());
+        });
+
+        std::wcout << averageColor << L" Elapsed time AverageColor_ParallelInvokeReduce(): " << elapsed << L" ms" << std::endl;
+        elapsed_ParallelInvokeReduce += elapsed;
     }
 
+    std::wcout << L"Average AverageColor_While(): " << elapsed_While / iterations << L" ms" << std::endl;
     std::wcout << L"Average AverageColor_Serial(): " << elapsed_Serial / iterations << L" ms" << std::endl;
-    std::wcout << L"Average AverageColor_ParallelFor(): " << elapsed_ParallelFor / iterations << L" ms" << std::endl;
     std::wcout << L"Average AverageColor_Task(): " << elapsed_Task / iterations << L" ms" << std::endl;
-    std::wcout << L"Average AverageColor_ParallelTransform(): " << elapsed_ParallelTransform / iterations << L" ms" << std::endl;
+    std::wcout << L"Average AverageColor_ParallelInvoke(): " << elapsed_ParallelInvoke / iterations << L" ms" << std::endl;
+    std::wcout << L"Average AverageColor_ParallelReduce(): " << elapsed_ParallelReduce / iterations << L" ms" << std::endl;
+    std::wcout << L"Average AverageColor_ParallelInvokeReduce(): " << elapsed_ParallelInvokeReduce / iterations << L" ms" << std::endl;
+
     CoUninitialize();
     return 0;
 }
-
