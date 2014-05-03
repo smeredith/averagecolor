@@ -18,9 +18,14 @@ DWORD AverageColor_While(
         redSum += *iter++;
     }
 
-    ULONGLONG blueAverage = blueSum / ((end - begin) / 3);
-    ULONGLONG greenAverage = greenSum / ((end - begin) / 3);
-    ULONGLONG redAverage = redSum / ((end - begin) / 3);
+#pragma warning(push)
+#pragma warning(disable : 4244) // Guaranteed to fit into a byte because the sum accumulated bytes.
+
+    BYTE blueAverage = blueSum / ((end - begin) / 3);
+    BYTE greenAverage = greenSum / ((end - begin) / 3);
+    BYTE redAverage = redSum / ((end - begin) / 3);
+
+#pragma warning(pop)
 
     return (redAverage << 16) | (greenAverage << 8) | blueAverage;
 }

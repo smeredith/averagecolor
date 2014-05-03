@@ -15,6 +15,9 @@ DWORD AverageColor_ParallelInvokeReduce(
     BYTE greenAverage;
     BYTE redAverage;
 
+#pragma warning(push)
+#pragma warning(disable : 4244) // Guaranteed to fit into a byte because the sum accumulated bytes.
+
     concurrency::parallel_invoke(
         [&blueAverage, begin, end]()
         {
@@ -34,6 +37,8 @@ DWORD AverageColor_ParallelInvokeReduce(
                     std::accumulate<ColorIterator, ULONGLONG>,
                     [](ULONGLONG a, ULONGLONG b){return a+b;}) / ((end - begin) / 3);
         });
+
+#pragma warning(pop)
 
     return (redAverage << 16) | (greenAverage << 8) | blueAverage;
 }

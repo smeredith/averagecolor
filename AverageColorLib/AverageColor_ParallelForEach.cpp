@@ -5,10 +5,10 @@
 #include "AverageColor_Serial.h"
 
 DWORD AverageColor_ParallelForEach(
-        RawBitmap::PixelColorVector::iterator begin,
-        RawBitmap::PixelColorVector::iterator end,
-        UINT width,
-        UINT height)
+    const std::vector<BYTE>::const_iterator& begin,
+    const std::vector<BYTE>::const_iterator& end,
+    UINT width,
+    UINT height)
 {
     // Want to process scanlines in parallel, so create a list of each scanline's begin
     // and end iterators. The color sums for that line will be stored in this vector as

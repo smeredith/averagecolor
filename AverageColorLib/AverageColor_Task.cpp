@@ -46,9 +46,30 @@ DWORD AverageColor_Task(
     // pixels to process.
     UINT chunkSize = 10000;
 
-    BYTE blueAverage = AccumulateUsingTasks(ColorIterator(begin), ColorIterator(end), chunkSize) / ((end - begin) / 3);
-    BYTE greenAverage = AccumulateUsingTasks(ColorIterator(begin+1), ColorIterator(end+1), chunkSize) / ((end - begin) / 3);
-    BYTE redAverage = AccumulateUsingTasks(ColorIterator(begin+2), ColorIterator(end+2), chunkSize) / ((end - begin) / 3);
+    concurrency::task<ULONGLONG> blueSum = concurrency::create_task(
+        [begin, end, chunkSize]()
+        {
+            return AccumulateUsingTasks(ColorIterator(begin), ColorIterator(end), chunkSize);
+        });
+    concurrency::task<ULONGLONG> greenSum = concurrency::create_task(
+        [begin, end, chunkSize]()
+        {
+            return AccumulateUsingTasks(ColorIterator(begin+1), ColorIterator(end+1), chunkSize);
+        });
+    concurrency::task<ULONGLONG> redSum = concurrency::create_task(
+        [begin, end, chunkSize]()
+        {
+            return AccumulateUsingTasks(ColorIterator(begin+2), ColorIterator(end+2), chunkSize);
+        });
+
+#pragma warning(push)
+#pragma warning(disable : 4244) // Guaranteed to fit into a byte because the sum accumulated bytes.
+
+    BYTE blueAverage = blueSum.get() / ((end - begin) / 3);
+    BYTE redAverage = redSum.get() / ((end - begin) / 3);
+    BYTE greenAverage = greenSum.get() / ((end - begin) / 3);
+
+#pragma warning(pop)
 
     return (redAverage << 16) | (greenAverage << 8) | blueAverage;
 }
