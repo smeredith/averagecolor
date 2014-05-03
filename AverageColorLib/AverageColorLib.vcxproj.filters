@@ -51,6 +51,12 @@
     <ClInclude Include="AverageColor_ParallelInvoke.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AverageColor_ParallelReduce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_ParallelInvokeReduce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -72,6 +78,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AverageColor_ParallelInvoke.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_ParallelReduce.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_ParallelInvokeReduce.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

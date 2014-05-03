@@ -90,6 +90,9 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="UT_AverageColor_ParallelInvoke.cpp" />
+    <ClCompile Include="UT_AverageColor_ParallelInvokeReduce.cpp" />
+    <ClCompile Include="UT_AverageColor_ParallelReduce.cpp" />
     <ClCompile Include="UT_AverageColor_Serial.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

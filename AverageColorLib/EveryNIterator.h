@@ -12,6 +12,21 @@ class EveryNIterator : public std::iterator<std::random_access_iterator_tag, T>
         {
         }
 
+        EveryNIterator(T&& iterator)
+        : m_realIterator(std::move(iterator))
+        {
+        }
+
+        EveryNIterator(EveryNIterator&& other)
+        : m_realIterator(std::move(other.m_realIterator))
+        {
+        }
+
+        EveryNIterator& operator=(T&& rhs)
+        {
+            m_realIterator = std::move(rhs.m_realIterator);
+        }
+
         typename std::iterator_traits<T>::value_type operator*() const
         {
            return *m_realIterator;
