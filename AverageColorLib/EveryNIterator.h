@@ -36,22 +36,22 @@ class EveryNIterator : public std::iterator<std::random_access_iterator_tag, T>
             return *this;
         }
 
-        typename std::iterator_traits<T>::difference_type operator-(const EveryNIterator& other)
+        typename std::iterator_traits<T>::difference_type operator-(const EveryNIterator& other) const
         {
             return (m_realIterator - other.m_realIterator) / n;
         }
 
-        EveryNIterator operator+ (size_t rhs)
+        EveryNIterator operator+ (size_t rhs) const
         {
             return EveryNIterator<T, n>(m_realIterator + (rhs * n));
         }
 
-        bool operator!=(const EveryNIterator& other)
+        bool operator!=(const EveryNIterator& other) const
         {
             return m_realIterator != other.m_realIterator;
         }
 
-        bool operator>=(const EveryNIterator& other)
+        bool operator>=(const EveryNIterator& other) const
         {
             return m_realIterator >= other.m_realIterator;
         }

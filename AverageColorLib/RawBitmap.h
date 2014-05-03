@@ -13,8 +13,8 @@ class RawBitmap
 
         HRESULT InitFromFile(PCWSTR pFilename);
 
-        ColorIterator begin(size_t color) { return ColorIterator(m_bitmap.begin() + color); };
-        ColorIterator end(size_t color) { return ColorIterator(m_bitmap.end() + color); };
+        ColorIterator cbegin(size_t color) { return ColorIterator(m_bitmap.cbegin() + color); };
+        ColorIterator cend(size_t color) { return ColorIterator(m_bitmap.cend() + color); };
         UINT Width() const { return m_width; };
         UINT Height() const { return m_height; };
 

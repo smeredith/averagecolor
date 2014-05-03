@@ -7,8 +7,8 @@
 // number of iterations in a single work unit. If there is more work than this, it gets
 // recursively divided into two more tasks.
 ULONGLONG AccumulateUsingTasks(
-        ColorIterator begin,
-        ColorIterator end,
+        const ColorIterator& begin,
+        const ColorIterator& end,
         UINT chunkSize)
 {
     if ((static_cast<UINT>(end - begin) < chunkSize) || (chunkSize < 2))
@@ -35,14 +35,14 @@ ULONGLONG AccumulateUsingTasks(
 }
 
 DWORD AverageColor_Task(
-    ColorIterator blueBegin, ColorIterator blueEnd,
-    ColorIterator greenBegin, ColorIterator greenEnd,
-    ColorIterator redBegin, ColorIterator redEnd,
+    const ColorIterator& blueBegin, const ColorIterator& blueEnd,
+    const ColorIterator& greenBegin, const ColorIterator& greenEnd,
+    const ColorIterator& redBegin, const ColorIterator& redEnd,
     UINT chunkSize)
 {
     if (chunkSize == 0)
     {
-        chunkSize = 10000;
+        chunkSize = 5000;
     }
 
     BYTE blueAverage = AccumulateUsingTasks(blueBegin, blueEnd, chunkSize) / (blueEnd - blueBegin);

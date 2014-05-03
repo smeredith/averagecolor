@@ -9,12 +9,12 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTestAverageColorLib
 {
-    TEST_CLASS(TestAverageColor_Serial)
+    TEST_CLASS(TestAverageColor_ParallelInvoke)
     {
     private:
         void TestForExpected(UINT, UINT, std::vector<BYTE> pixels, DWORD expected)
         {
-            DWORD averageColor = AverageColor_Serial(
+            DWORD averageColor = AverageColor_ParallelInvoke(
                 ColorIterator(pixels.cbegin()), ColorIterator(pixels.cend()),
                 ColorIterator(pixels.cbegin() + 1), ColorIterator(pixels.cend() + 1),
                 ColorIterator(pixels.cbegin() + 2), ColorIterator(pixels.cend() + 2));

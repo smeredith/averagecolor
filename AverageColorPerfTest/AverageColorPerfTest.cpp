@@ -7,6 +7,7 @@
 #include <RawBitmap.h>
 #include <AverageColor_Serial.h>
 #include <AverageColor_Task.h>
+#include <AverageColor_ParallelInvoke.h>
 
 // Calls the provided work function and returns the number of milliseconds  
 // that it takes to call that function. 
@@ -33,7 +34,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
     DWORD averageColor;
     __int64 elapsed_Serial = 0;
-    __int64 elapsed_ParallelFor = 0;
+    __int64 elapsed_ParallelInvoke = 0;
     __int64 elapsed_Task = 0;
     __int64 elapsed_ParallelTransform = 0;
 
@@ -45,9 +46,9 @@ int _tmain(int argc, _TCHAR* argv[])
             [&]
         {
             averageColor = AverageColor_Serial(
-                bitmap.begin(0), bitmap.end(0),
-                bitmap.begin(1), bitmap.end(1),
-                bitmap.begin(2), bitmap.end(2));
+                bitmap.cbegin(0), bitmap.cend(0),
+                bitmap.cbegin(1), bitmap.cend(1),
+                bitmap.cbegin(2), bitmap.cend(2));
         });
 
         std::wcout << L"Elapsed time AverageColor_Serial(): " << elapsed << L" ms" << std::endl;
@@ -57,19 +58,32 @@ int _tmain(int argc, _TCHAR* argv[])
             [&]
         {
             averageColor = AverageColor_Task(
-                bitmap.begin(0), bitmap.end(0),
-                bitmap.begin(1), bitmap.end(1),
-                bitmap.begin(2), bitmap.end(2),
+                bitmap.cbegin(0), bitmap.cend(0),
+                bitmap.cbegin(1), bitmap.cend(1),
+                bitmap.cbegin(2), bitmap.cend(2),
                 0);
         });
 
         std::wcout << L"Elapsed time AverageColor_Task(): " << elapsed << L" ms" << std::endl;
         elapsed_Task += elapsed;
 
+        elapsed = time_call(
+            [&]
+        {
+            averageColor = AverageColor_ParallelInvoke(
+                bitmap.cbegin(0), bitmap.cend(0),
+                bitmap.cbegin(1), bitmap.cend(1),
+                bitmap.cbegin(2), bitmap.cend(2));
+        });
+
+        std::wcout << L"Elapsed time AverageColor_ParallelInvoke(): " << elapsed << L" ms" << std::endl;
+        elapsed_ParallelInvoke += elapsed;
+
     }
 
     std::wcout << L"Average AverageColor_Serial(): " << elapsed_Serial / iterations << L" ms" << std::endl;
-    std::wcout << L"Average AverageColor_Task(): " << elapsed_Task/ iterations << L" ms" << std::endl;
+    std::wcout << L"Average AverageColor_Task(): " << elapsed_Task / iterations << L" ms" << std::endl;
+    std::wcout << L"Average AverageColor_ParallelInvoke(): " << elapsed_ParallelInvoke / iterations << L" ms" << std::endl;
 
     CoUninitialize();
     return 0;

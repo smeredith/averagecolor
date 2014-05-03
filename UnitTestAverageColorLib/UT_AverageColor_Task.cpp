@@ -14,9 +14,9 @@ namespace UnitTestAverageColorLib
         void TestForExpected(UINT, UINT, std::vector<BYTE> pixels, DWORD expected)
         {
             DWORD averageColor = AverageColor_Task(
-                ColorIterator(pixels.begin()), ColorIterator(pixels.end()),
-                ColorIterator(pixels.begin() + 1), ColorIterator(pixels.end() + 1),
-                ColorIterator(pixels.begin() + 2), ColorIterator(pixels.end() + 2),
+                ColorIterator(pixels.cbegin()), ColorIterator(pixels.cend()),
+                ColorIterator(pixels.cbegin() + 1), ColorIterator(pixels.cend() + 1),
+                ColorIterator(pixels.cbegin() + 2), ColorIterator(pixels.cend() + 2),
                 0);
 
             Assert::AreEqual(expected, averageColor);

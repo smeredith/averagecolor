@@ -4,6 +4,6 @@
 #include "ColorCalculations.h"
 
 DWORD AverageColor_Serial(
-    ColorIterator blueBegin, ColorIterator blueEnd,
-    ColorIterator greenBegin, ColorIterator greenEnd,
-    ColorIterator redBegin, ColorIterator redEnd);
+    const ColorIterator& blueBegin, const ColorIterator& blueEnd,
+    const ColorIterator& greenBegin, const ColorIterator& greenEnd,
+    const ColorIterator& redBegin, const ColorIterator& redEnd);

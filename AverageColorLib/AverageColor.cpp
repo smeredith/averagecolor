@@ -8,9 +8,9 @@ HRESULT AverageColor(PCWSTR filename, DWORD& averageColor)
     IF_FAIL_RETURN(bitmap.InitFromFile(filename));
 
     averageColor = AverageColor_Task(
-        bitmap.begin(0), bitmap.end(0),
-        bitmap.begin(1), bitmap.end(1),
-        bitmap.begin(2), bitmap.end(2),
+        bitmap.cbegin(0), bitmap.cend(0),
+        bitmap.cbegin(1), bitmap.cend(1),
+        bitmap.cbegin(2), bitmap.cend(2),
         0);
 
     return S_OK;
