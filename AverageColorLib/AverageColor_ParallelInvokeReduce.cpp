@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <numeric>
+#include <functional>
 #include <ppl.h>
 #include "EveryNIterator.h"
 #include "AverageColor_ParallelInvoke.h"
@@ -25,19 +26,19 @@ DWORD AverageColor_ParallelInvokeReduce(
         {
             blueAverage = concurrency::parallel_reduce(ColorIterator(begin), ColorIterator(end), 0ULL,
                     std::accumulate<ColorIterator, ULONGLONG>,
-                    [](ULONGLONG a, ULONGLONG b){return a+b;}) / pixelCount;
+                    std::plus<ULONGLONG>()) / pixelCount;
         },
         [&greenAverage, begin, end, pixelCount]()
         {
             greenAverage = concurrency::parallel_reduce(ColorIterator(begin+1), ColorIterator(end+1), 0ULL,
                     std::accumulate<ColorIterator, ULONGLONG>,
-                    [](ULONGLONG a, ULONGLONG b){return a+b;}) / pixelCount;
+                    std::plus<ULONGLONG>()) / pixelCount;
         },
         [&redAverage, begin, end, pixelCount]()
         {
             redAverage = concurrency::parallel_reduce(ColorIterator(begin+2), ColorIterator(end+2), 0ULL,
                     std::accumulate<ColorIterator, ULONGLONG>,
-                    [](ULONGLONG a, ULONGLONG b){return a+b;}) / pixelCount;
+                    std::plus<ULONGLONG>()) / pixelCount;
         });
 
 #pragma warning(pop)

@@ -22,13 +22,13 @@ DWORD AverageColor_ParallelReduce(
 
     blueAverage = concurrency::parallel_reduce(ColorIterator(begin), ColorIterator(end), 0ULL,
             std::accumulate<ColorIterator, ULONGLONG>,
-            [pixelCount](ULONGLONG a, ULONGLONG b){return a+b;}) / pixelCount;
+            std::plus<ULONGLONG>()) / pixelCount;
     greenAverage = concurrency::parallel_reduce(ColorIterator(begin+1), ColorIterator(end+1), 0ULL,
             std::accumulate<ColorIterator, ULONGLONG>,
-            [pixelCount](ULONGLONG a, ULONGLONG b){return a+b;}) / pixelCount;
+            std::plus<ULONGLONG>()) / pixelCount;
     redAverage = concurrency::parallel_reduce(ColorIterator(begin+2), ColorIterator(end+2), 0ULL,
             std::accumulate<ColorIterator, ULONGLONG>,
-            [pixelCount](ULONGLONG a, ULONGLONG b){return a+b;}) / pixelCount;
+            std::plus<ULONGLONG>()) / pixelCount;
 
 #pragma warning(pop)
 
