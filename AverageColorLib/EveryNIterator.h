@@ -67,6 +67,11 @@ class EveryNIterator : public std::iterator<std::random_access_iterator_tag, typ
             return EveryNIterator<It, n>(m_realIterator - (rhs * n));
         }
 
+        bool operator<(const EveryNIterator& rhs)
+        {
+            return m_realIterator < rhs.m_realIterator;
+        }
+
         bool operator!=(const EveryNIterator& other) const
         {
             return m_realIterator != other.m_realIterator;

@@ -40,7 +40,7 @@ namespace FunctionalTests
             {
                 DWORD averageColor = 0;
 
-                HRESULT hr = AverageColor(L"256color.bmp", averageColor);
+                HRESULT hr = AverageColor(L"..\\TestFiles\\256color.bmp", averageColor);
                 Assert::IsTrue(FAILED(hr));
             }
 
@@ -48,7 +48,7 @@ namespace FunctionalTests
             {
                 DWORD averageColor = 0;
 
-                HRESULT hr = AverageColor(L"16color.bmp", averageColor);
+                HRESULT hr = AverageColor(L"..\\TestFiles\\16color.bmp", averageColor);
                 Assert::IsTrue(FAILED(hr));
             }
 

@@ -162,5 +162,32 @@ namespace UnitTestAverageColorLib
             EveryNIterator<std::vector<int>::const_iterator, 2> iter2(input.end());
             Assert::IsFalse(iter1 >= iter2);
         }
+
+        TEST_METHOD(EveryNIterator_BeginLessThanEnd_ShouldBeTrue)
+        {
+            std::vector<char> input = {0,1,2,3,4,5};
+
+            EveryNIterator<std::vector<char>::const_iterator, 2> begin(input.begin());
+            EveryNIterator<std::vector<char>::const_iterator, 2> end(input.end());
+            Assert::IsTrue(begin < end);
+        }
+
+        TEST_METHOD(EveryNIterator_EndLessThanBegin_ShouldBeFalse)
+        {
+            std::vector<int> input = {0,1,2,3,4,5};
+
+            EveryNIterator<std::vector<int>::const_iterator, 2> begin(input.begin());
+            EveryNIterator<std::vector<int>::const_iterator, 2> end(input.end());
+            Assert::IsFalse(end < begin);
+        }
+
+        TEST_METHOD(EveryNIterator_FirstLessThanSecond_ShouldBeTrue)
+        {
+            std::vector<int> input = {0,1,2,3,4,5};
+
+            EveryNIterator<std::vector<int>::const_iterator, 2> first(input.begin());
+            EveryNIterator<std::vector<int>::const_iterator, 2> second(input.begin() + 1);
+            Assert::IsTrue(first < second);
+        }
     };
 }
