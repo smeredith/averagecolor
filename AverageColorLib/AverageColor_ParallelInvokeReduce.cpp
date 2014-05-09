@@ -30,15 +30,15 @@ DWORD AverageColor_ParallelInvokeReduce(
         },
         [&greenAverage, begin, end, pixelCount]()
         {
-            greenAverage = concurrency::parallel_reduce(ColorIterator(begin+1), ColorIterator(end+1), 0ULL,
+            greenAverage = (concurrency::parallel_reduce(ColorIterator(begin+1), ColorIterator(end-2), 0ULL,
                     std::accumulate<ColorIterator, ULONGLONG>,
-                    std::plus<ULONGLONG>()) / pixelCount;
+                    std::plus<ULONGLONG>()) + *(end-2)) / pixelCount;
         },
         [&redAverage, begin, end, pixelCount]()
         {
-            redAverage = concurrency::parallel_reduce(ColorIterator(begin+2), ColorIterator(end+2), 0ULL,
+            redAverage = (concurrency::parallel_reduce(ColorIterator(begin+2), ColorIterator(end-1), 0ULL,
                     std::accumulate<ColorIterator, ULONGLONG>,
-                    std::plus<ULONGLONG>()) / pixelCount;
+                    std::plus<ULONGLONG>()) + *(end-1)) / pixelCount;
         });
 
 #pragma warning(pop)

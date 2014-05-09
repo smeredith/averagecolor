@@ -53,12 +53,12 @@ DWORD AverageColor_Task(
     concurrency::task<ULONGLONG> greenSum = concurrency::create_task(
         [begin, end]()
         {
-            return AccumulateUsingTasks(ColorIterator(begin+1), ColorIterator(end+1));
+            return AccumulateUsingTasks(ColorIterator(begin+1), ColorIterator(end-2)) + *(end-2);
         });
     concurrency::task<ULONGLONG> redSum = concurrency::create_task(
         [begin, end]()
         {
-            return AccumulateUsingTasks(ColorIterator(begin+2), ColorIterator(end+2));
+            return AccumulateUsingTasks(ColorIterator(begin+2), ColorIterator(end-1)) + *(end-1);
         });
 
 #pragma warning(push)
@@ -66,9 +66,9 @@ DWORD AverageColor_Task(
 
     const size_t pixelCount = (end - begin) / 3;
 
-    BYTE blueAverage = blueSum.get() / pixelCount;
-    BYTE redAverage = redSum.get() / pixelCount;
-    BYTE greenAverage = greenSum.get() / pixelCount;
+    const BYTE blueAverage = blueSum.get() / pixelCount;
+    const BYTE redAverage = redSum.get() / pixelCount;
+    const BYTE greenAverage = greenSum.get() / pixelCount;
 
 #pragma warning(pop)
 
