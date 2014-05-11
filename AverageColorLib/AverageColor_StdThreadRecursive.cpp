@@ -41,21 +41,24 @@ DWORD AverageColor_StdThreadRecursive(
     const std::vector<BYTE>::const_iterator& begin,
     const std::vector<BYTE>::const_iterator& end)
 {
-    ULONGLONG blueSum;
-    auto blueThread = std::thread(AccumulateUsingThreads, ColorIterator(begin), ColorIterator(end), &blueSum);
-
     ULONGLONG greenSum;
     auto greenThread = std::thread(AccumulateUsingThreads, ColorIterator(begin+1), ColorIterator(end-2), &greenSum);
-    greenSum += *(end-2);
 
     ULONGLONG redSum;
-    AccumulateUsingThreads(ColorIterator(begin+2), ColorIterator(end-1), &redSum);
-    redSum += *(end-1);
+    auto redThread = std::thread(AccumulateUsingThreads, ColorIterator(begin+2), ColorIterator(end-1), &redSum);
+
+    ULONGLONG blueSum;
+    AccumulateUsingThreads(ColorIterator(begin), ColorIterator(end), &blueSum);
 
     const size_t pixelCount = (end - begin) / 3;
 
-    blueThread.join();
+    redThread.join();
     greenThread.join();
+
+    // We stopped short on the red and green accumulate so as to not initialize a
+    // ColorIterator past the end of the real iterator. Add in the last one now.
+    redSum += *(end-1);
+    greenSum += *(end-2);
 
 #pragma warning(push)
 #pragma warning(disable : 4244) // Guaranteed to fit into a byte because the sum accumulated bytes.
