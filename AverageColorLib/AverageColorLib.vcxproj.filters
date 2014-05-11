@@ -54,6 +54,12 @@
     <ClInclude Include="AverageColor_ParallelInvokeReduce.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AverageColor_StdThreadRecursive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_StdThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -84,6 +90,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AverageColor_StdThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_StdThreadRecursive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -53,6 +53,9 @@
     <ClCompile Include="UT_AverageColor_StdThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UT_AverageColor_StdThreadRecursive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\AverageColorPerfTest\ReadMe.txt" />
