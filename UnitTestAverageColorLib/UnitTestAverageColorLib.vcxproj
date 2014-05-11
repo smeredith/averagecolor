@@ -98,6 +98,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="UT_AverageColor_StdAsync.cpp" />
     <ClCompile Include="UT_AverageColor_StdThread.cpp" />
     <ClCompile Include="UT_AverageColor_StdThreadRecursive.cpp" />
     <ClCompile Include="UT_AverageColor_Task.cpp" />
