@@ -31,13 +31,8 @@ ULONGLONG AccumulateUsingTasks(
                 return AccumulateUsingTasks(begin, middle);
             });
 
-        concurrency::task<ULONGLONG> topHalfTask = concurrency::create_task(
-            [middle, end]
-            {
-                return AccumulateUsingTasks(middle, end);
-            });
-
-        return bottomHalfTask.get() + topHalfTask.get();
+        ULONGLONG topHalfSum = AccumulateUsingTasks(middle, end);
+        return topHalfSum + bottomHalfTask.get();
     }
 }
 
@@ -50,25 +45,23 @@ DWORD AverageColor_Task(
         {
             return AccumulateUsingTasks(ColorIterator(begin), ColorIterator(end));
         });
+
     concurrency::task<ULONGLONG> greenSum = concurrency::create_task(
         [begin, end]()
         {
             return AccumulateUsingTasks(ColorIterator(begin+1), ColorIterator(end-2)) + *(end-2);
         });
-    concurrency::task<ULONGLONG> redSum = concurrency::create_task(
-        [begin, end]()
-        {
-            return AccumulateUsingTasks(ColorIterator(begin+2), ColorIterator(end-1)) + *(end-1);
-        });
+
+    ULONGLONG redSum = AccumulateUsingTasks(ColorIterator(begin+2), ColorIterator(end-1)) + *(end-1);
+
+    const size_t pixelCount = (end - begin) / 3;
 
 #pragma warning(push)
 #pragma warning(disable : 4244) // Guaranteed to fit into a byte because the sum accumulated bytes.
 
-    const size_t pixelCount = (end - begin) / 3;
-
     const BYTE blueAverage = blueSum.get() / pixelCount;
-    const BYTE redAverage = redSum.get() / pixelCount;
     const BYTE greenAverage = greenSum.get() / pixelCount;
+    const BYTE redAverage = redSum / pixelCount;
 
 #pragma warning(pop)
 
