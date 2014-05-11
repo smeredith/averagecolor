@@ -12,6 +12,7 @@
 #include <AverageColor_ParallelReduce.h>
 #include <AverageColor_ParallelInvokeReduce.h>
 #include <AverageColor_While.h>
+#include <AverageColor_StdThread.h>
 
 // Calls the provided work function and returns the number of milliseconds
 // that it takes to call that function.
@@ -53,6 +54,7 @@ int _tmain(int argc, _TCHAR* argv[])
     __int64 elapsed_ParallelInvoke = 0;
     __int64 elapsed_ParallelReduce = 0;
     __int64 elapsed_ParallelInvokeReduce = 0;
+    __int64 elapsed_StdThread = 0;
 
     const size_t iterations = 10;
 
@@ -60,6 +62,15 @@ int _tmain(int argc, _TCHAR* argv[])
     {
         DWORD averageColor;
         __int64 elapsed;
+
+        elapsed = time_call(
+            [&]
+        {
+            averageColor = AverageColor_StdThread(pixels.cbegin(), pixels.cend());
+        });
+
+        std::wcout << averageColor << L" Elapsed time AverageColor_StdThread(): " << elapsed << L" ms" << std::endl;
+        elapsed_StdThread += elapsed;
 
         elapsed = time_call(
             [&]
@@ -114,6 +125,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
         std::wcout << averageColor << L" Elapsed time AverageColor_ParallelInvokeReduce(): " << elapsed << L" ms" << std::endl;
         elapsed_ParallelInvokeReduce += elapsed;
+
     }
 
     std::wcout << L"Average AverageColor_While(): " << elapsed_While / iterations << L" ms" << std::endl;
@@ -122,6 +134,7 @@ int _tmain(int argc, _TCHAR* argv[])
     std::wcout << L"Average AverageColor_ParallelInvoke(): " << elapsed_ParallelInvoke / iterations << L" ms" << std::endl;
     std::wcout << L"Average AverageColor_ParallelReduce(): " << elapsed_ParallelReduce / iterations << L" ms" << std::endl;
     std::wcout << L"Average AverageColor_ParallelInvokeReduce(): " << elapsed_ParallelInvokeReduce / iterations << L" ms" << std::endl;
+    std::wcout << L"Average AverageColor_StdThread(): " << elapsed_StdThread / iterations << L" ms" << std::endl;
 
     CoUninitialize();
     return 0;

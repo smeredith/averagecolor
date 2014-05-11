@@ -83,5 +83,8 @@
     <ClCompile Include="AverageColor_While.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AverageColor_StdThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

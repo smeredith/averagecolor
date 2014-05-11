@@ -91,6 +91,7 @@
     <ClCompile Include="AverageColor_ParallelInvokeReduce.cpp" />
     <ClCompile Include="AverageColor_ParallelReduce.cpp" />
     <ClCompile Include="AverageColor_Serial.cpp" />
+    <ClCompile Include="AverageColor_StdThread.cpp" />
     <ClCompile Include="AverageColor_Task.cpp" />
     <ClCompile Include="AverageColor_While.cpp" />
     <ClCompile Include="RawBitmap.cpp" />
