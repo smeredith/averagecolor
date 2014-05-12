@@ -32,5 +32,5 @@ DWORD AverageColor_StdAsync(
 
 #pragma warning(pop)
 
-    return (redAverage << 16) | (greenAverage << 8) | blueAverage;
+    return RGB(redAverage, greenAverage, blueAverage);
 }

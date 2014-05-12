@@ -87,9 +87,9 @@ namespace FunctionalTests
                 TestFile(L"..\\TestFiles\\2x2_000000.bmp", 0);
             }
 
-            TEST_METHOD(FT_AveragaeColor_2x2_00003f)
+            TEST_METHOD(FT_AveragaeColor_2x2_3f0000)
             {
-                TestFile(L"..\\TestFiles\\2x2_00003f.bmp", 0x3f);
+                TestFile(L"..\\TestFiles\\2x2_3f0000.bmp", 0x3f0000);
             }
 
             TEST_METHOD(FT_AveragaeColor_2x2_3f3f3f)
@@ -97,14 +97,14 @@ namespace FunctionalTests
                 TestFile(L"..\\TestFiles\\2x2_3f3f3f.bmp", 0x3f3f3f);
             }
 
-            TEST_METHOD(FT_AveragaeColor_2x2_7f0000)
+            TEST_METHOD(FT_AveragaeColor_2x2_00007f)
             {
-                TestFile(L"..\\TestFiles\\2x2_7f0000.bmp", 0x7f0000);
+                TestFile(L"..\\TestFiles\\2x2_00007f.bmp", 0x00007f);
             }
 
-            TEST_METHOD(FT_AveragaeColor_2x2_ff0000)
+            TEST_METHOD(FT_AveragaeColor_2x2_0000ff)
             {
-                TestFile(L"..\\TestFiles\\2x2_ff0000.bmp", 0xff0000);
+                TestFile(L"..\\TestFiles\\2x2_0000ff.bmp", 0x0000ff);
             }
 
             TEST_METHOD(FT_AveragaeColor_2x2_ffffff)
@@ -122,9 +122,9 @@ namespace FunctionalTests
                 TestFile(L"..\\TestFiles\\255x1_010101.bmp", 0x010101);
             }
 
-            TEST_METHOD(FT_AveragaeColor_255x1_030102)
+            TEST_METHOD(FT_AveragaeColor_255x1_020103)
             {
-                TestFile(L"..\\TestFiles\\255x1_030102.bmp", 0x030102);
+                TestFile(L"..\\TestFiles\\255x1_020103.bmp", 0x020103);
             }
 
             TEST_METHOD(FT_AveragaeColor_255x1_030303)
@@ -142,14 +142,14 @@ namespace FunctionalTests
                 TestFile(L"..\\TestFiles\\5000x5000_ffffff.jpg", 0xffffff);
             }
 
-            TEST_METHOD(FT_AveragaeColor_25000x1000_ff8041)
+            TEST_METHOD(FT_AveragaeColor_25000x1000_4180ff)
             {
-                TestFile(L"..\\TestFiles\\25000x1000_ff8041.jpg", 0xff8041);
+                TestFile(L"..\\TestFiles\\25000x1000_4180ff.jpg", 0x4180ff);
             }
 
-            TEST_METHOD(FT_AveragaeColor_real_5e93b6)
+            TEST_METHOD(FT_AveragaeColor_real_b6935e)
             {
-                TestFile(L"..\\TestFiles\\real_5e93b6.jpg", 0x5e93b6);
+                TestFile(L"..\\TestFiles\\real_b6935e.jpg", 0xb6935e);
             }
     };
 }

@@ -65,7 +65,11 @@ int _tmain(int argc, WCHAR* argv[])
 
     if (SUCCEEDED(hr))
     {
-        std::cout << "0x" << std::hex << std::setw(6) << std::setfill('0') << averageColor << std::endl;
+        // The files are stored internally as BGR. Swap the B and R for printing out as RGB.
+        std::cout << "0x" << std::hex << std::setw(2) << std::setfill('0') << 
+            static_cast<int>(GetRValue(averageColor)) << 
+            static_cast<int>(GetGValue(averageColor)) <<
+            static_cast<int>(GetBValue(averageColor)) << std::endl;
     }
     else
     {
