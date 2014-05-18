@@ -17,6 +17,7 @@ int _tmain(int argc, WCHAR* argv[])
     normalOptions.add_options()
         ("help,h", "print help message")
         ("version,v", "print version")
+        ("css,c", "output as CSS color value like #225500")
         ;
 
     // These are positional options that do not need help descriptions printed.
@@ -65,15 +66,24 @@ int _tmain(int argc, WCHAR* argv[])
 
     if (SUCCEEDED(hr))
     {
+        if (vm.count("css"))
+        {
+            std::cout << "#";
+        }
+        else
+        {
+            std::cout << "0x";
+        }
+
         // The files are stored internally as BGR. Swap the B and R for printing out as RGB.
-        std::cout << "0x" << std::hex << std::setw(2) << std::setfill('0') << 
+        std::cout << std::hex << std::setw(2) << std::setfill('0') << 
             static_cast<int>(GetRValue(averageColor)) << 
             static_cast<int>(GetGValue(averageColor)) <<
             static_cast<int>(GetBValue(averageColor)) << std::endl;
     }
     else
     {
-        std::cout << "Error: 0x" << std::hex << hr << std::endl;
+        std::cout << "Error loading bitmap: 0x" << std::hex << hr << std::endl;
     }
 
     CoUninitialize();
