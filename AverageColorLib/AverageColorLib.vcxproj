@@ -72,6 +72,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AverageColor.h" />
+    <ClInclude Include="AverageColor_ParallelAccumulate.h" />
     <ClInclude Include="AverageColor_ParallelForEach.h" />
     <ClInclude Include="AverageColor_ParallelInvoke.h" />
     <ClInclude Include="AverageColor_ParallelInvokeReduce.h" />
@@ -90,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AverageColor.cpp" />
+    <ClCompile Include="AverageColor_ParallelAccumulate.cpp" />
     <ClCompile Include="AverageColor_ParallelInvoke.cpp" />
     <ClCompile Include="AverageColor_ParallelInvokeReduce.cpp" />
     <ClCompile Include="AverageColor_ParallelReduce.cpp" />
