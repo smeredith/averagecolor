@@ -40,7 +40,14 @@ HRESULT RawBitmap::InitFromFile(PCWSTR pFilename)
     const UINT colorCount = 3;
 
     // Make a buffer to hold the bytes of the decoded image.
-    m_bitmap.resize(m_width * m_height * colorCount);
+    try
+    {
+        m_bitmap.resize(m_width * m_height * colorCount);
+    }
+    catch(std::bad_alloc&)
+    {
+        return E_OUTOFMEMORY;
+    }
 
     // Decode the image into the buffer.
     IF_FAIL_RETURN(pFrame->CopyPixels(
