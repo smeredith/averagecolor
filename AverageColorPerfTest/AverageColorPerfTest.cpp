@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <vector>
 #include <algorithm>
+#include <chrono>
 #include <AverageColor_Serial.h>
 #include <AverageColor_Task.h>
 #include <AverageColor_ParallelInvoke.h>
@@ -19,14 +20,19 @@
 // Calls the provided work function and returns the number of milliseconds
 // that it takes to call that function.
 template <class Function>
-__int64 time_call(Function&& f)
+long long time_call(Function&& f)
 {
-    __int64 begin = GetTickCount64();
+    auto start = std::chrono::steady_clock::now();
+
     f();
-    return GetTickCount64() - begin;
+
+    auto diff = std::chrono::steady_clock::now() - start;
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff);
+
+    return ms.count();
 }
 
-// Fuctor to initialze a vector of BYTES with the repeating pattern 0,1,2,0,1,2... when
+// Functor to initialze a vector of BYTES with the repeating pattern 0,1,2,0,1,2... when
 // passed to std::generate().
 class ColorGen
 {
@@ -50,22 +56,22 @@ int _tmain(int argc, _TCHAR* argv[])
     std::generate(pixels.begin(), pixels.end(), colorGen);
 
     // Total times for each implementation.
-    __int64 elapsed_While = 0;
-    __int64 elapsed_Serial = 0;
-    __int64 elapsed_Task = 0;
-    __int64 elapsed_ParallelInvoke = 0;
-    __int64 elapsed_ParallelReduce = 0;
-    __int64 elapsed_ParallelInvokeReduce = 0;
-    __int64 elapsed_StdThread = 0;
-    __int64 elapsed_StdThreadRecursive = 0;
-    __int64 elapsed_StdAsync = 0;
+    long long elapsed_While = 0;
+    long long elapsed_Serial = 0;
+    long long elapsed_Task = 0;
+    long long elapsed_ParallelInvoke = 0;
+    long long elapsed_ParallelReduce = 0;
+    long long elapsed_ParallelInvokeReduce = 0;
+    long long elapsed_StdThread = 0;
+    long long elapsed_StdThreadRecursive = 0;
+    long long elapsed_StdAsync = 0;
 
     const size_t iterations = 10;
 
     for (size_t i = 0; i < iterations; ++i)
     {
         DWORD averageColor;
-        __int64 elapsed;
+        long long elapsed;
 
         elapsed = time_call(
             [&]
