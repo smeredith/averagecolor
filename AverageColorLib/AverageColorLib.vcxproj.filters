@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -30,12 +27,84 @@
     <ClInclude Include="FlowControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RawBitmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_Serial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_ParallelForEach.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorCalculations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_Task.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EveryNIterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_ParallelInvoke.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_ParallelReduce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_ParallelInvokeReduce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_StdThreadRecursive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_StdThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_StdAsync.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageColor_ParallelAccumulate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RawBitmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_Serial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="AverageColor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_Task.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_ParallelInvoke.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_ParallelReduce.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_ParallelInvokeReduce.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_While.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_StdThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_StdThreadRecursive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_StdAsync.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageColor_ParallelAccumulate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

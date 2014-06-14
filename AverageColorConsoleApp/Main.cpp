@@ -9,7 +9,7 @@
 
 namespace po = boost::program_options;
 
-int _tmain(int argc, _TCHAR* argv[])
+int _tmain(int argc, WCHAR* argv[])
 {
 
     // These are the options that need help descriptions printed.
@@ -17,6 +17,7 @@ int _tmain(int argc, _TCHAR* argv[])
     normalOptions.add_options()
         ("help,h", "print help message")
         ("version,v", "print version")
+        ("css,c", "output as CSS color value like #225500 instead of 0x225500.")
         ;
 
     // These are positional options that do not need help descriptions printed.
@@ -47,14 +48,14 @@ int _tmain(int argc, _TCHAR* argv[])
 
     if (vm.count("version"))
     {
-        std::cout << "averagecolor version 1.0" << std::endl;
+        std::cout << "averagecolor version 1.1" << std::endl;
         return 2;
     }
 
     if (vm.count("help") || !vm.count("input"))
     {
-        std::cout << "Find the average color of an image file." << std::endl << std::endl;
-        std::cout << "Usage: averagecolor [-hv] filename" << std::endl << std::endl;
+        std::cout << "Find the average color of an image file and output it as GRB." << std::endl << std::endl;
+        std::cout << "Usage: averagecolor [-hvc] filename" << std::endl << std::endl;
         std::cout << normalOptions << std::endl;
         return 3;
     }
@@ -65,11 +66,24 @@ int _tmain(int argc, _TCHAR* argv[])
 
     if (SUCCEEDED(hr))
     {
-        std::cout << "0x" << std::hex << std::setw(6) << std::setfill('0') << averageColor << std::endl;
+        if (vm.count("css"))
+        {
+            std::cout << "#";
+        }
+        else
+        {
+            std::cout << "0x";
+        }
+
+        // The files are stored internally as BGR. Swap the B and R for printing out as RGB.
+        std::cout << std::hex << std::setw(2) << std::setfill('0') << 
+            static_cast<int>(GetRValue(averageColor)) << 
+            static_cast<int>(GetGValue(averageColor)) <<
+            static_cast<int>(GetBValue(averageColor)) << std::endl;
     }
     else
     {
-        std::cout << "Error: 0x" << std::hex << hr << std::endl;
+        std::cout << "Error loading bitmap: 0x" << std::hex << hr << std::endl;
     }
 
     CoUninitialize();

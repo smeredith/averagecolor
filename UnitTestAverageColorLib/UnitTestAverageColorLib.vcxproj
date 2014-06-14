@@ -42,11 +42,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <IncludePath>..\AverageColorLib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <IncludePath>..\AverageColorLib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -85,20 +85,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AverageColorTestSet.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="UT_AverageColor_ParallelAccumulate.cpp" />
+    <ClCompile Include="UT_AverageColor_ParallelInvoke.cpp" />
+    <ClCompile Include="UT_AverageColor_ParallelInvokeReduce.cpp" />
+    <ClCompile Include="UT_AverageColor_ParallelReduce.cpp" />
+    <ClCompile Include="UT_AverageColor_Serial.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="unittest1.cpp" />
+    <ClCompile Include="UT_AverageColor_StdAsync.cpp" />
+    <ClCompile Include="UT_AverageColor_StdThread.cpp" />
+    <ClCompile Include="UT_AverageColor_StdThreadRecursive.cpp" />
+    <ClCompile Include="UT_AverageColor_Task.cpp" />
+    <ClCompile Include="UT_AverageColor_While.cpp" />
+    <ClCompile Include="UT_EveryNIterator.cpp" />
+    <ClCompile Include="UT_Parallel_Accumulate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AverageColorLib\AverageColorLib.vcxproj">
       <Project>{9cb9b8ab-c2a0-4548-966f-59c56a356270}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\AverageColorPerfTest\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
