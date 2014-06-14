@@ -17,7 +17,7 @@ int _tmain(int argc, WCHAR* argv[])
     normalOptions.add_options()
         ("help,h", "print help message")
         ("version,v", "print version")
-        ("css,c", "output as CSS color value like #225500")
+        ("css,c", "output as CSS color value like #225500 instead of 0x225500.")
         ;
 
     // These are positional options that do not need help descriptions printed.
@@ -48,14 +48,14 @@ int _tmain(int argc, WCHAR* argv[])
 
     if (vm.count("version"))
     {
-        std::cout << "averagecolor version 1.0" << std::endl;
+        std::cout << "averagecolor version 1.1" << std::endl;
         return 2;
     }
 
     if (vm.count("help") || !vm.count("input"))
     {
-        std::cout << "Find the average color of an image file." << std::endl << std::endl;
-        std::cout << "Usage: averagecolor [-hv] filename" << std::endl << std::endl;
+        std::cout << "Find the average color of an image file and output it as GRB." << std::endl << std::endl;
+        std::cout << "Usage: averagecolor [-hvc] filename" << std::endl << std::endl;
         std::cout << normalOptions << std::endl;
         return 3;
     }
